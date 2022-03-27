@@ -8,7 +8,7 @@ export default function Home({ orgs }) {
     var authors = orgs.map(org => org.authors).flat(1);
 
     return (
-        <>
+        <div className="blog">
             <h1>Welcome to swarm</h1>
 
             <h2>The organisations which we support</h2>
@@ -31,6 +31,6 @@ export default function Home({ orgs }) {
                     return <li key={blog.id}><a href={blog.link}>{blog.author_name} - {blog.title}</a></li>;
                 })}
             </ul>
-        </>
+        </div>
     );
 }

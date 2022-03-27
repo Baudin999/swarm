@@ -1,6 +1,17 @@
+@import "./colors.less";
+
 html, body {
     margin: 0;
     padding: 0;
+
+    background: @color-primary_background;
+    color: @color-primary_font-color;
+}
+
+*, *:before, *:after {
+    color: inherit;
+    background: inherit;
+    box-sizing: border-box;
 }
 
 h1 {

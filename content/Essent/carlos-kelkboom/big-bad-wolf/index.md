@@ -1,8 +1,8 @@
 ---
 title: Who's afraid of the big bad wolf
 author: Carlos Kelkboom
-Description: The lif of the big bad wolf
-Date: 27-03-2022
+description: The life of the big bad wolf
+date: 27-03-2022
 ---
 
 # Who's afraid of the big bad wolf!

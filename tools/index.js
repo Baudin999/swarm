@@ -42,6 +42,7 @@ const mapOrganisationAuthors = (organisationDir, orgId) => {
         .map(dirent => {
             var authorDirPath = join(organisationDir, dirent.name);
             var authorInfoPath = join(authorDirPath, "info.json");
+            var authorId = dirent.name.toLowerCase();
             var info = {};
             if (fs.existsSync(authorInfoPath)) {
                 var infoText = fs.readFileSync(authorInfoPath, "utf8");
@@ -54,11 +55,14 @@ const mapOrganisationAuthors = (organisationDir, orgId) => {
                 var md = new MarkdownIt();
                 var config = fm(markdownText);
                 info = {...info, ...config.attributes};
-                html = md.render(config.body);
+                html = md.render(config.body);   
+            }
+            if (info.image) {
+                info.image = info.image.replace('./', `/${orgId}/${authorId}/`)
             }
             var blogs = mapAuthorBlogs(authorDirPath);
             return { 
-                id: dirent.name.toLowerCase(), 
+                id: authorId, 
                 name: dirent.name, 
                 org_id: orgId, 
                 ...info, 

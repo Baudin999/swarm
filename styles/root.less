@@ -1,13 +1,25 @@
 @import "./reset.less";
 @import "./typography.less";
+@import "./blog.less";
+@import "./colors.less";
+
+body {
+    padding-top: 50px;
+}
 
 .header {
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    background: orange;
+    background: @color-accent;
+    color: @color-primary_background;
     align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
 
     .header-root {
         img {
@@ -21,6 +33,9 @@
             li {
                 display: inline-block;
                 margin-right: 1rem;
+                a {
+                    color: @color-primary_background;
+                }
             }
         }
     }

@@ -1,7 +1,7 @@
 ---
 title: Hello, World!
-Description: Hello to the world
-Date: 12-03-2022
+description: Hello to the world
+date: 12-03-2022
 ---
 
 # Hello World
