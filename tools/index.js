@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOMServer from "react-dom/server";
 import fs from "fs";
 import { join } from 'path';
+import Page from "./../components/Page";
 import Welcome from "./../components/Welcome";
 import MarkdownIt from "markdown-it";
 import fm from "front-matter"
@@ -22,7 +23,9 @@ const mapAuthorBlogs = (authorDir) => {
             var md = new MarkdownIt();
             var config = fm(markdownText);
             var html = md.render(config.body);
-            return { id: dirent.name, path: join(authorDir, dirent.name), frontmatter: config.attributes, html };
+            console.log(config)
+            var title = config.attributes.title | dirent.name;
+            return { id: dirent.name, path: join(authorDir, dirent.name), title, ...config.attributes, SEO: config.attributes, html };
         });
 };
 
@@ -68,10 +71,14 @@ var organisations = getOrganisations(contentDir);
 organisations.forEach(org => {
     org.authors.forEach(author => {
         author.blogs.forEach(blog => {
-            var string = ReactDOMServer.renderToString(<Welcome organisation={org} author={author} blog={blog} />);
+            var string = ReactDOMServer.renderToString((
+                <Page SEO={blog.SEO}>
+                    <Welcome organisation={org} author={author} blog={blog} />
+                </Page>)
+            );
             console.log(string);
         });
     });
 });
 
-console.log(JSON.stringify(organisations, null, 4));
+// console.log(JSON.stringify(organisations, null, 4));
