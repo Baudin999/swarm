@@ -4,7 +4,9 @@ import fs from "fs";
 import { join } from 'path';
 import fsExtra from "fs-extra";
 import Page from "./../components/Page";
-import Welcome from "./../components/Welcome";
+import Author from "../components/Author";
+import Organisation from "../components/Organisation";
+import Blog from "../components/Blog";
 import MarkdownIt from "markdown-it";
 import fm from "front-matter";
 import prettyHtml from "html";
@@ -26,7 +28,7 @@ const mapAuthorBlogs = (authorDir) => {
             var config = fm(markdownText);
             var html = md.render(config.body);
             var title = config.attributes.title | dirent.name;
-            return { id: dirent.name, path: join(authorDir, dirent.name), title, ...config.attributes, SEO: config.attributes, html };
+            return { id: dirent.name.toLowerCase(), path: join(authorDir, dirent.name), title, ...config.attributes, SEO: config.attributes, html };
         });
 };
 
@@ -43,7 +45,7 @@ const mapOrganisationAuthors = (organisationDir) => {
                 info = JSON.parse(infoText);
             }
             var blogs = mapAuthorBlogs(authorDirPath);
-            return { id: dirent.name, name: dirent.name, ...info, path: authorDirPath, blogs };
+            return { id: dirent.name.toLowerCase(), name: dirent.name, ...info, SEO: info, path: authorDirPath, blogs };
         });
 };
 
@@ -60,13 +62,13 @@ const getOrganisations = (contentRoot) => {
                     info = JSON.parse(infoText);
                 }
                 var authors = mapOrganisationAuthors(orgDirPath);
-                return { id: dirent.name, name: dirent.name, ...info, authors };
+                return { id: dirent.name.toLowerCase(), path: orgDirPath, name: dirent.name, ...info, SEO: info, authors };
             });
 
     return organisations;
 };
 
-const saveHtml = (html, distRootPath, blog, author, org) => {
+const saveBlogHtml = (html, distRootPath, blog, author, org) => {
     var htmlPath = join(distRootPath, org.id, author.id, blog.id, "index.html");
     var dirName = join(distRootPath, org.id, author.id, blog.id);
     if (!fs.existsSync(dirName)) {
@@ -76,7 +78,28 @@ const saveHtml = (html, distRootPath, blog, author, org) => {
     fs.writeFileSync(join(dirName, "index.json"), JSON.stringify(blog, null, 4));
     fsExtra.copySync(blog.path, dirName);
 };
+const saveAuthorHtml = (html, distRootPath, author, org) => {
+    var htmlPath = join(distRootPath, org.id, author.id, "index.html");
+    var dirName = join(distRootPath, org.id, author.id);
+    if (!fs.existsSync(dirName)) {
+        fs.mkdirSync(dirName, { recursive: true });
+    }
+    fs.writeFileSync(htmlPath, prettyHtml.prettyPrint(html, { indent_size: 4 }));
+    fs.writeFileSync(join(dirName, "index.json"), JSON.stringify(author, null, 4));
+    fsExtra.copySync(author.path, dirName);
+};
 
+const saveOrganisationHtml = (html, distRootPath, org) => {
+    var htmlPath = join(distRootPath, org.id, "index.html");
+    var dirName = join(distRootPath, org.id);
+    if (!fs.existsSync(dirName)) {
+        fs.mkdirSync(dirName, { recursive: true });
+    }
+
+    fs.writeFileSync(htmlPath, prettyHtml.prettyPrint(html, { indent_size: 4 }));
+    fs.writeFileSync(join(dirName, "index.json"), JSON.stringify(org, null, 4));
+    fsExtra.copySync(org.path, dirName);
+};
 
 var organisations = getOrganisations(contentDir);
 
@@ -85,12 +108,27 @@ organisations.forEach(org => {
         author.blogs.forEach(blog => {
             var string = ReactDOMServer.renderToString((
                 <Page SEO={blog.SEO}>
-                    <Welcome organisation={org} author={author} blog={blog} />
+                    <Blog organisation={org} author={author} blog={blog} />
                 </Page>)
             );
 
-            saveHtml(string, distDir, blog, author, org);
+            saveBlogHtml(string, distDir, blog, author, org);
         });
+
+
+        var authorString = ReactDOMServer.renderToString((
+            <Page SEO={author.SEO}>
+                <Author organisation={org} author={author} />
+            </Page>)
+        );
+        saveAuthorHtml(authorString, distDir, author, org);
     });
+
+    var orgHtml = ReactDOMServer.renderToString((
+        <Page SEO={org.SEO}>
+            <Organisation organisation={org} />
+        </Page>)
+    );
+    saveOrganisationHtml(orgHtml, distDir, org);
 });
 
