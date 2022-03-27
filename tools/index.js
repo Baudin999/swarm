@@ -1,15 +1,14 @@
-import react from "react";
+import React from "react";
+import ReactDOMServer from "react-dom/server";
 import fs from "fs";
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
-import ReactDOMServer from "react-dom-server";
-import Root from "./root.js";
-
+import { join } from 'path';
+import Welcome from "./../components/Welcome";
 import MarkdownIt from "markdown-it";
+import fm from "front-matter"
+
 
 // some setup to get to the root of the project
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __dirname = process.cwd();
 const rootDir = __dirname; //join(__dirname, '..');
 const contentDir = join(rootDir, 'content');
 const distDir = join(rootDir, 'dist');
@@ -21,11 +20,9 @@ const mapAuthorBlogs = (authorDir) => {
             var blogDirPath = join(authorDir, dirent.name);
             var markdownText = fs.readFileSync(join(blogDirPath, "index.md"), "utf8");
             var md = new MarkdownIt();
-            var html = md.render(markdownText);
-
-            console.log(html);
-
-            return { id: dirent.name, path: join(authorDir, dirent.name), html };
+            var config = fm(markdownText);
+            var html = md.render(config.body);
+            return { id: dirent.name, path: join(authorDir, dirent.name), frontmatter: config.attributes, html };
         });
 };
 
@@ -71,7 +68,7 @@ var organisations = getOrganisations(contentDir);
 organisations.forEach(org => {
     org.authors.forEach(author => {
         author.blogs.forEach(blog => {
-            var string = ReactDOMServer.renderToString(new Root(org, author, blog));
+            var string = ReactDOMServer.renderToString(<Welcome organisation={org} author={author} blog={blog} />);
             console.log(string);
         });
     });

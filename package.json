@@ -1,24 +1,24 @@
 {
   "name": "swarm",
   "version": "0.0.0",
-  "description": "The swarm blog engine",
-  "main": "./tools/index.js",
-  "author": "Carlos Kelkboom",
-  "license": "MIT",
-  "type": "module",
+  "description": "The swarm static site generator",
+  "main": "./tools/temp.js",
+  "devDependencies": {},
   "scripts": {
     "build": "babel-node ./tools/index.js"
   },
-  "devDependencies": {
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
     "@babel/cli": "^7.17.6",
     "@babel/core": "^7.17.8",
     "@babel/node": "^7.16.8",
+    "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
+    "front-matter": "^4.0.2",
+    "markdown-it": "^12.3.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-dom-server": "^0.0.5"
-  },
-  "dependencies": {
-    "markdown-it": "^12.3.2"
   }
 }
