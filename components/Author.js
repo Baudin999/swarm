@@ -1,9 +1,17 @@
 import React from "react";
 
 export default function Author({ organisation, author }) {
+    console.log(author);
     return (
         <>
             <h1>{author.name}</h1>
+
+            {author.image &&
+                <div style={{maxWidth: "150px"} }>
+                    <img src={author.image} />
+                </div>
+            }
+
             <div>
                 <span>To Organisation</span>
                 <a href={`/${organisation.id}`}>{organisation.name}</a>
