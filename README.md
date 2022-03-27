@@ -15,18 +15,10 @@ cd swarm
 yarn
 ```
 
-
-run the command:
-
-```
-yarn build
-```
-
-and start the server:
+If you want to start developing with a watch on the files, run:
 
 ```
-yarn server
+npm run dev
 ```
 
-You can now open your browser at http://localhost:3000 and enjoy your content. Developing on top of swarm is 
-as easy as creating a normal React application. The only thing you cannot do is modify the structure of the content.
+A browser will automatically be openend at the right location http://localhost:3000. Look at the `package.json` to see the different scripts you can run. 
