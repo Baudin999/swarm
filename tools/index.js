@@ -36,7 +36,7 @@ const mapAuthorBlogs = (authorDir) => {
 };
 
 
-const mapOrganisationAuthors = (organisationDir) => {
+const mapOrganisationAuthors = (organisationDir, orgId) => {
     return fs.readdirSync(organisationDir, { withFileTypes: true })
         .filter(dirent => dirent.isDirectory())
         .map(dirent => {
@@ -48,7 +48,7 @@ const mapOrganisationAuthors = (organisationDir) => {
                 info = JSON.parse(infoText);
             }
             var blogs = mapAuthorBlogs(authorDirPath);
-            return { id: dirent.name.toLowerCase(), name: dirent.name, ...info, SEO: info, path: authorDirPath, blogs };
+            return { id: dirent.name.toLowerCase(), name: dirent.name, org_id: orgId, ...info, SEO: info, path: authorDirPath, blogs };
         });
 };
 
@@ -57,6 +57,7 @@ const getOrganisations = (contentRoot) => {
         fs.readdirSync(contentRoot, { withFileTypes: true })
             .filter(dirent => dirent.isDirectory())
             .map(dirent => {
+                var orgId = dirent.name.toLowerCase();
                 var orgDirPath = join(contentRoot, dirent.name);
                 var orgInfoPath = join(orgDirPath, "info.json");
                 var info = {};
@@ -64,8 +65,23 @@ const getOrganisations = (contentRoot) => {
                     var infoText = fs.readFileSync(orgInfoPath, "utf8");
                     info = JSON.parse(infoText);
                 }
-                var authors = mapOrganisationAuthors(orgDirPath);
-                return { id: dirent.name.toLowerCase(), path: orgDirPath, name: dirent.name, ...info, SEO: info, authors };
+                
+                var markdownPath = join(orgDirPath, "index.md");
+                var html;
+                if (fs.existsSync(markdownPath)) {
+                    var markdownText = fs.readFileSync(markdownPath, "utf8");
+                    var md = new MarkdownIt();
+                    var config = fm(markdownText);
+                    info = {...info, ...config};
+                    html = md.render(config.body);
+                }
+
+                var authors = mapOrganisationAuthors(orgDirPath, orgId);
+                var organisaationResult = { id: orgId, path: orgDirPath, name: dirent.name, ...info, SEO: info, authors };
+                if (html) {
+                    organisaationResult.html = html;
+                }
+                return organisaationResult;
             });
 
     return organisations;
@@ -135,7 +151,7 @@ organisations.forEach(org => {
     })
 })
 state.setState('all_blogs', allBlogs); 
-// changed
+state.setState('authors', organisations.map(org => org.authors).flat(1));
 
 organisations.forEach(org => {
     org.authors.forEach(author => {
