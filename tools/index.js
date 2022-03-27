@@ -8,10 +8,12 @@ import Author from "../components/Author";
 import Organisation from "../components/Organisation";
 import Blog from "../components/Blog";
 import Home from "../components/Home";
+import StyleGuide from "../components/StyleGuide";
 import MarkdownIt from "markdown-it";
 import fm from "front-matter";
 import prettyHtml from "html";
 import state from '../components/globalState';
+import Login from "../components/Login";
 
 // some setup to get to the root of the project
 const __dirname = process.cwd();
@@ -173,3 +175,24 @@ var homeHtml = ReactDOMServer.renderToString((
     </Page>)
 );
 saveHomeHtml(homeHtml, distDir);
+
+var config = require("./../app.config.json");
+
+function renderLogin(cnf) {
+    var loginHtml = ReactDOMServer.renderToString((
+        <Login clientId={cnf.clientId} />
+    ));
+    var loginHtmlPath = join(distDir, "login.html");
+    fs.writeFileSync(loginHtmlPath, prettyHtml.prettyPrint(loginHtml, { indent_size: 4 }));
+}
+renderLogin(config);
+
+
+function renderStyleGuide() {
+    var styleguideHtml = ReactDOMServer.renderToString((
+        <StyleGuide />
+    ));
+    var styleguideHtmlPath = join(distDir, "styleguide.html");
+    fs.writeFileSync(styleguideHtmlPath, prettyHtml.prettyPrint(styleguideHtml, { indent_size: 4 }));
+}
+renderStyleGuide(config);

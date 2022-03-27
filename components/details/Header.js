@@ -7,6 +7,8 @@ export default function Header() {
 
     return (
         <div className="header">
+            
+
             <div className="header-root">
                 <a href="/">
                 <img src="/mars.png" />
@@ -19,6 +21,7 @@ export default function Header() {
                     {organisations.map(org => {
                         return <li key={org.id}><a href={`/${org.id}`}>{org.name}</a></li>
                     })}
+                    <li><a href="/styleguide.html">Style guide</a></li>
                 </ul>
             </div>
         </div>

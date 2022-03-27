@@ -1,7 +1,6 @@
 import React from "react";
 
 export default function Author({ organisation, author }) {
-    console.log(author);
     return (
         <>
             <h1>{author.name}</h1>
