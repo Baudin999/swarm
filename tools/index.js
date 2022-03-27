@@ -11,7 +11,7 @@ import Home from "../components/Home";
 import MarkdownIt from "markdown-it";
 import fm from "front-matter";
 import prettyHtml from "html";
-
+import state from '../components/globalState';
 
 // some setup to get to the root of the project
 const __dirname = process.cwd();
@@ -69,6 +69,7 @@ const getOrganisations = (contentRoot) => {
     return organisations;
 };
 
+
 const saveBlogHtml = (html, distRootPath, blog, author, org) => {
     var htmlPath = join(distRootPath, org.id, author.id, blog.id, "index.html");
     var dirName = join(distRootPath, org.id, author.id, blog.id);
@@ -110,6 +111,29 @@ const saveHomeHtml = (html, distRootPath) => {
 };
 
 var organisations = getOrganisations(contentDir);
+state.setState('orgs', organisations);
+
+const allBlogs = [];
+organisations.forEach(org => {
+    org.authors.forEach(author => {
+        author.blogs.forEach(blog => {
+            var _blog = { ...blog };
+            delete _blog.SEO;
+            delete _blog.html;
+
+            allBlogs.push({
+                ..._blog,
+                author_id: author.id,
+                author_name: author.name,
+                link: `/${org.id}/${author.id}/${blog.id}`,
+                org_id: org.id,
+                org_name: org.name
+            });
+        })
+    })
+})
+state.setState('all_blogs', allBlogs); 
+// changed
 
 organisations.forEach(org => {
     org.authors.forEach(author => {

@@ -1,6 +1,7 @@
 import React from "react";
 import Layout from './Layout';
 
+
 export default function Page({SEO, children}) {
 
     if (!SEO) SEO = {};
@@ -25,4 +26,3 @@ export default function Page({SEO, children}) {
         </html>
     );
 }
-

@@ -1,14 +1,26 @@
 
 
 import React from "react";
+import stateContainer from "./globalState";
 
 export default function Home({ orgs }) {
+    let allBlogs = stateContainer.getState('all_blogs');
+
     return (
         <>
             <h1>Welcome to swarm</h1>
+
+            <h2>The organisations which we support</h2>
             <ul>
                 {orgs.map(org => {
                     return <li key={org.id}><a href={`/${org.id}`}>{org.name}</a></li>;
+                })}
+            </ul>
+
+            <h2>All the blogs</h2>
+            <ul>
+                {allBlogs.map(blog => {
+                    return <li key={blog.id}><a href={blog.link}>{blog.author_name} - {blog.title}</a></li>;
                 })}
             </ul>
         </>
