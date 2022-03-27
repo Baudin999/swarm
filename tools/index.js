@@ -7,6 +7,7 @@ import Page from "./../components/Page";
 import Author from "../components/Author";
 import Organisation from "../components/Organisation";
 import Blog from "../components/Blog";
+import Home from "../components/Home";
 import MarkdownIt from "markdown-it";
 import fm from "front-matter";
 import prettyHtml from "html";
@@ -101,6 +102,11 @@ const saveOrganisationHtml = (html, distRootPath, org) => {
     fsExtra.copySync(org.path, dirName);
 };
 
+const saveHomeHtml = (html, distRootPath) => {
+    var htmlPath = join(distRootPath, "index.html");
+    fs.writeFileSync(htmlPath, prettyHtml.prettyPrint(html, { indent_size: 4 }));
+};
+
 var organisations = getOrganisations(contentDir);
 
 organisations.forEach(org => {
@@ -132,3 +138,12 @@ organisations.forEach(org => {
     saveOrganisationHtml(orgHtml, distDir, org);
 });
 
+// generate the index.html file
+
+
+var homeHtml = ReactDOMServer.renderToString((
+    <Page SEO={{}}>
+        <Home orgs={organisations} />
+    </Page>)
+);
+saveHomeHtml(homeHtml, distDir);
