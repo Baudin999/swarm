@@ -106,6 +106,7 @@ const saveOrganisationHtml = (html, distRootPath, org) => {
 const saveHomeHtml = (html, distRootPath) => {
     var htmlPath = join(distRootPath, "index.html");
     fs.writeFileSync(htmlPath, prettyHtml.prettyPrint(html, { indent_size: 4 }));
+    fsExtra.copySync(contentDir, distRootPath);
 };
 
 var organisations = getOrganisations(contentDir);

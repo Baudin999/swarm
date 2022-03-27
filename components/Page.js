@@ -1,4 +1,5 @@
 import React from "react";
+import Layout from './Layout';
 
 export default function Page({SEO, children}) {
 
@@ -17,7 +18,9 @@ export default function Page({SEO, children}) {
                 <link rel="stylesheet" type="text/css" href="/styles.css" />
             </head>
             <body>
-                {children}
+                <Layout>
+                    {children}
+                </Layout>
             </body>
         </html>
     );

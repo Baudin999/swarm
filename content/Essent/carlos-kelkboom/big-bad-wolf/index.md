@@ -6,4 +6,7 @@ Description: The lif of the big bad wolf
 
 # Who's afraid of the big bad wolf!
 
-With a change
+
+![wolf](./wolf.jpg)
+
+This is a nice wolf, this will be a blog-post
