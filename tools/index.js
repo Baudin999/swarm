@@ -47,8 +47,26 @@ const mapOrganisationAuthors = (organisationDir, orgId) => {
                 var infoText = fs.readFileSync(authorInfoPath, "utf8");
                 info = JSON.parse(infoText);
             }
+            var markdownPath = join(authorDirPath, "index.md");
+            var html;
+            if (fs.existsSync(markdownPath)) {
+                var markdownText = fs.readFileSync(markdownPath, "utf8");
+                var md = new MarkdownIt();
+                var config = fm(markdownText);
+                info = {...info, ...config.attributes};
+                html = md.render(config.body);
+            }
             var blogs = mapAuthorBlogs(authorDirPath);
-            return { id: dirent.name.toLowerCase(), name: dirent.name, org_id: orgId, ...info, SEO: info, path: authorDirPath, blogs };
+            return { 
+                id: dirent.name.toLowerCase(), 
+                name: dirent.name, 
+                org_id: orgId, 
+                ...info, 
+                SEO: info, 
+                path: authorDirPath, 
+                blogs, 
+                html 
+            };
         });
 };
 
@@ -72,7 +90,7 @@ const getOrganisations = (contentRoot) => {
                     var markdownText = fs.readFileSync(markdownPath, "utf8");
                     var md = new MarkdownIt();
                     var config = fm(markdownText);
-                    info = {...info, ...config};
+                    info = {...info, ...config.attributes};
                     html = md.render(config.body);
                 }
 
