@@ -79,6 +79,7 @@ const saveBlogHtml = (html, distRootPath, blog, author, org) => {
     fs.writeFileSync(join(dirName, "index.json"), JSON.stringify(blog, null, 4));
     fsExtra.copySync(blog.path, dirName);
 };
+
 const saveAuthorHtml = (html, distRootPath, author, org) => {
     var htmlPath = join(distRootPath, org.id, author.id, "index.html");
     var dirName = join(distRootPath, org.id, author.id);

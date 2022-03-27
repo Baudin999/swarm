@@ -13,6 +13,8 @@ export default function Page({SEO, children}) {
                 <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
                 {SEO.title && <meta name="title" content={SEO.title} />}
                 {SEO.description && <meta name="description" content={SEO.description} />}
+
+                <link rel="stylesheet" type="text/css" href="/styles.css" />
             </head>
             <body>
                 {children}
