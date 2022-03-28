@@ -17,8 +17,8 @@
     "watch-app": "nodemon --watch components tools --exec 'npm run build-content'",
     "watch-content": "nodemon --ext .* --watch content --exec 'npm run build-content'",
     "dev": "concurrently 'npm run watch-styles' 'npm run watch-app' 'npm run watch-content' 'npm run server' 'open http://localhost:3000'",
-    "link": "npm uninstall -g > npm install -g",
-    "rollup": "rollup -c ./rollup.config.js"
+    "link": "npm uninstall -g swarm > npm install -g",
+    "rollup": "rollup -c"
   },
   "author": "",
   "license": "ISC",

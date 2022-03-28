@@ -34,3 +34,8 @@ npm run dev
 ```
 A browser will automatically be openend at the right location http://localhost:3000. Look at the `package.json` to see the different scripts you can run. 
 
+
+
+# Swarm CLI
+
+there is a rollup command and a link command in the package.json which can be used to create and install the swarm cli tool. No push to npm yet.
