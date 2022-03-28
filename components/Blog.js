@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function Blog({ organisation, author, blog }) {
-    // console.log(blog)
+    // console.log(blog.description);
     // console.log(author);
     return (
         <div className="blog">

@@ -14,6 +14,7 @@ import fm from "front-matter";
 import prettyHtml from "html";
 import state from '../components/globalState';
 import Login from "../components/Login";
+import moment from "moment";
 
 // some setup to get to the root of the project
 const __dirname = process.cwd();
@@ -31,6 +32,13 @@ const mapAuthorBlogs = (authorDir) => {
             var config = fm(markdownText);
             var html = md.render(config.body);
             var title = config.attributes.title | dirent.name;
+            if (!config.attributes.date) {
+                config.attributes.date = fs.statSync(blogDirPath).ctime.toDateString("nl-NL");
+            }
+            else {
+                config.attributes.date = moment(config.attributes.date, "DD-MM-YYYY").toDate().toDateString("nl-NL");
+            }
+            console.log(config.attributes);
             return { id: dirent.name.toLowerCase(), path: join(authorDir, dirent.name), title, ...config.attributes, SEO: config.attributes, html };
         });
 };
@@ -54,22 +62,22 @@ const mapOrganisationAuthors = (organisationDir, orgId) => {
                 var markdownText = fs.readFileSync(markdownPath, "utf8");
                 var md = new MarkdownIt();
                 var config = fm(markdownText);
-                info = {...info, ...config.attributes};
-                html = md.render(config.body);   
+                info = { ...info, ...config.attributes };
+                html = md.render(config.body);
             }
             if (info.image) {
-                info.image = info.image.replace('./', `/${orgId}/${authorId}/`)
+                info.image = info.image.replace('./', `/${orgId}/${authorId}/`);
             }
             var blogs = mapAuthorBlogs(authorDirPath);
-            return { 
-                id: authorId, 
-                name: dirent.name, 
-                org_id: orgId, 
-                ...info, 
-                SEO: info, 
-                path: authorDirPath, 
-                blogs, 
-                html 
+            return {
+                id: authorId,
+                name: dirent.name,
+                org_id: orgId,
+                ...info,
+                SEO: info,
+                path: authorDirPath,
+                blogs,
+                html
             };
         });
 };
@@ -87,14 +95,14 @@ const getOrganisations = (contentRoot) => {
                     var infoText = fs.readFileSync(orgInfoPath, "utf8");
                     info = JSON.parse(infoText);
                 }
-                
+
                 var markdownPath = join(orgDirPath, "index.md");
                 var html;
                 if (fs.existsSync(markdownPath)) {
                     var markdownText = fs.readFileSync(markdownPath, "utf8");
                     var md = new MarkdownIt();
                     var config = fm(markdownText);
-                    info = {...info, ...config.attributes};
+                    info = { ...info, ...config.attributes };
                     html = md.render(config.body);
                 }
 
@@ -169,10 +177,10 @@ organisations.forEach(org => {
                 org_id: org.id,
                 org_name: org.name
             });
-        })
-    })
-})
-state.setState('all_blogs', allBlogs); 
+        });
+    });
+});
+state.setState('all_blogs', allBlogs);
 state.setState('authors', organisations.map(org => org.authors).flat(1));
 
 organisations.forEach(org => {
