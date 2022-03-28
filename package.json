@@ -3,11 +3,14 @@
   "version": "0.0.0",
   "description": "The swarm static site generator",
   "main": "./tools/temp.js",
-  "devDependencies": {},
+  "bin": {
+    "swarm": "./index-prod.js"
+  },
   "scripts": {
     "server": "node tools/server.js",
     "import-content": "babel-node tools/github.js",
     "build-content": "babel-node ./tools/index.js",
+    "import": "npm run import-content > npm run build-content",
     "build-styles": "lessc ./styles/root.less ./dist/styles.css",
     "build": "npm run build-content && npm run build-styles",
     "watch-styles": "nodemon --watch **/*.less --exec 'npm run build-styles'",
@@ -23,11 +26,16 @@
     "@babel/node": "^7.16.8",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
+    "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-commonjs": "^21.0.3",
     "axios": "^0.26.1",
+    "chalk": "^5.0.1",
+    "commander": "^9.1.0",
     "concurrently": "^7.0.0",
     "express": "^4.17.3",
     "front-matter": "^4.0.2",
     "fs-extra": "^10.0.1",
+    "g": "^2.0.1",
     "html": "^1.0.0",
     "less": "^4.1.2",
     "markdown-it": "^12.3.2",
@@ -36,6 +44,7 @@
     "nodemon": "^2.0.15",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-dom-server": "^0.0.5"
+    "react-dom-server": "^0.0.5",
+    "rollup": "^2.70.1"
   }
 }

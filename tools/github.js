@@ -25,14 +25,19 @@ function getContentFromRepos() {
     var promises = config.sources.map(source => {
         return new Promise((res) => {
             try {
-                const rand = Math.random().toString(16).substr(2, 8); // 6de5ccda
-                const clone = cmd.runSync(`cd ${tempDir} && git clone ${source} ${rand}`);
+                // setup
+                const rand = Math.random().toString(16).substr(2, 8); // generate unique id, example: 6de5ccda
                 const cloneDir = join(tempDir, rand);
                 const gitDir = join(cloneDir, '.git');
-                fsExtra.remove(gitDir, () => {
-                    fsExtra.copy(cloneDir, contentDir, () => {
-                        console.log(`Successfully cloned ${source} to ${contentDir}`);
-                        res();
+
+                // async calls
+                console.log(`Cloning into: ${gitDir}`);
+                cmd.run(`cd ${tempDir} && git clone ${source} ${rand}`, () => {
+                    fsExtra.remove(gitDir, () => {
+                        fsExtra.copy(cloneDir, contentDir, () => {
+                            console.log(`Successfully cloned ${source} to ${contentDir}`);
+                            res();
+                        });
                     });
                 });
             } catch (e) {
@@ -42,9 +47,9 @@ function getContentFromRepos() {
         });
     });
 
-    Promise.all(promises, () => {
+    Promise.all(promises).then(() => {
         fsExtra.remove(tempDir);
     });
 }
 
-getContentFromRepos();
+export default getContentFromRepos();

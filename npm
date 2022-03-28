@@ -1,0 +1,8 @@
+
+> swarm@0.0.0 import-content
+> babel-node tools/github.js "run" "build-content"
+
+Cloning into: D:\Projects\swarm\temp\1dda5744\.git
+Cloning into: D:\Projects\swarm\temp\dbb7fe53\.git
+Successfully cloned https://github.com/Baudin999/swarm-content.git to D:\Projects\swarm\content
+Successfully cloned https://github.com/Baudin999/swarm-sample-content.git to D:\Projects\swarm\content
