@@ -15,10 +15,22 @@ cd swarm
 yarn
 ```
 
-If you want to start developing with a watch on the files, run:
+Because we are eventually going to support authentication we need to create an `app.config.json` in the root of the project, same level as the `package.json`. You can fill the file with:
 
+```
+{
+    "clientId": "",
+    "clientSecret": ""
+}
+```
+To start the development server run:
+```
+npm run server
+```
+
+If you want to start developing with a watch on the files, run:
 ```
 npm run dev
 ```
-
 A browser will automatically be openend at the right location http://localhost:3000. Look at the `package.json` to see the different scripts you can run. 
+
