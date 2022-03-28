@@ -2,7 +2,7 @@
 name: Tijs van Erp
 role: Solution Architect in the Data Domain
 organisation: Essent
-image: ./portrait.jpeg
+image: ./portait.jpeg
 ---
 
 # Tijs van Erp

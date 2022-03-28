@@ -2,14 +2,14 @@ import React from "react";
 
 export default function Blog({ organisation, author, blog }) {
     // console.log(blog)
-    // console.log(author)
+    // console.log(author);
     return (
         <div className="blog">
             <div className="blog--title">{blog.title}</div>
-            {blog.description &&  <div className="blog--description">{blog.description}</div>}
+            {blog.description && <div className="blog--description">{blog.description}</div>}
 
             <div className="blog--title-bar">
-                <div className="blog--title-bar--author-pill"><img src={author.image} alt="something"/></div>
+                <div className="blog--title-bar--author-pill"><img src={author.image} alt="something" /></div>
                 <div className="blog--title-bar--organisation">
                     <a href={`/${organisation.id}`}>{organisation.name}</a>
                 </div>
