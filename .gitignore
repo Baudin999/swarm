@@ -2,5 +2,6 @@
 /dist
 /temp
 /content
+/output
 
 app.config.json

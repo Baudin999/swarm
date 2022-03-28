@@ -1,4 +1,4 @@
-#! /usr/bin/env node
+
 
 /*
 This is the CLI tool for the swarm application. With this tool we can execute commands
@@ -8,8 +8,11 @@ import path from 'path';
 import fsExtra from 'fs-extra';
 import { program } from 'commander';
 import { listSources, getSwarmConfig, saveSwarmConfig } from './commands/list.js';
-import cmd from 'node-cmd';
 import getContentFromRepos from './tools/github.js';
+import server from './tools/server';
+import build from './tools/index.start';
+import styles from './dist/styles.css';
+
 
 const currentDir = process.cwd() || __dirname;
 
@@ -62,16 +65,14 @@ content
 content
     .command('pull')
     .action(() => {
-        //var contentPath = path.join(currentDir, 'content');
-        // let command = `cd ${currentDir} && npm run import-content`;
-        // cmd.runSync(command);
         getContentFromRepos();
     });
 content
     .command('build')
     .action(() => {
-        let command = `cd ${currentDir} && npm run build`;
-        cmd.runSync(command);
+        build();
+        var stylesPath = path.join(currentDir, 'dist', 'styles.css');
+        fsExtra.writeFileSync(stylesPath, styles);
     });
 
 program
@@ -89,9 +90,7 @@ program
 program
     .command('serve')
     .action(() => {
-        console.log('Serving content on: http://localhost:3000');
-        let command = `cd ${currentDir} && npm run server`;
-        cmd.runSync(command);
+        server(currentDir);
     });
 
 program.parse();

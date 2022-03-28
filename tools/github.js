@@ -18,11 +18,11 @@ function getContentFromRepos() {
     if (!fs.existsSync(contentDir)) {
         fsExtra.mkdirpSync(contentDir);
     }
+    let srcConfig;
+    if (config) srcConfig = config;
+    else srcConfig = { sources: [] };
 
-    if (!config) config = {};
-    if (!config.sources) config.sources = [];
-
-    var promises = config.sources.map(source => {
+    var promises = srcConfig.sources.map(source => {
         return new Promise((res) => {
             try {
                 // setup
@@ -52,4 +52,4 @@ function getContentFromRepos() {
     });
 }
 
-export default getContentFromRepos();
+export default getContentFromRepos;

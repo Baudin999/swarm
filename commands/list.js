@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-export function _getSwarmConfig(sourcePath) {
+export function getSwarmConfig(sourcePath) {
     // init config
     var configPath = path.join(sourcePath, "/app.config.json");
     var config;
@@ -18,14 +18,14 @@ export function _getSwarmConfig(sourcePath) {
     return config;
 };
 
-export function _saveSwarmConfig(sourcePath, config) {
+export function saveSwarmConfig(sourcePath, config) {
     var configPath = path.join(sourcePath, "/app.config.json");
     fs.writeFileSync(configPath, JSON.stringify(config, null, 4));
 };
 
-export function _listSources(sourcePath) {
+export function listSources(sourcePath) {
     // get the config
-    var config = _getSwarmConfig(sourcePath);
+    var config = getSwarmConfig(sourcePath);
 
     if (config.sources.length === 0) {
         console.log("No sources avaiable");

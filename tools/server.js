@@ -1,30 +1,28 @@
 var express = require('express');
 var path = require('path');
-const pwd = process.cwd();
-const rootDir = pwd;
-const distDir = path.join(rootDir, 'dist');
-
-var config = require("./../app.config.json");
-
-var app = express();
 
 
+export default function (dir) {
+    if (!dir) {
+        const pwd = process.cwd();
+        dir = rootDir = pwd;
+    }
+    let srcDir = path.join(dir, 'dist');
 
-app.post('/return', (req, res, next) => {
-    console.log(req.headers);
-    throw 'breaking application';
-});
+    var app = express();
 
+    const loggerMiddleware = (req, res, next) => {
+        //console.log(req.path);
+        next();
+    };
 
-const loggerMiddleware = (req, res, next) => {
-    //console.log(req.path);
-    next();
+    app
+        .use(loggerMiddleware)
+        .use(express.static(srcDir));
+
+    app.listen(3000, (e) => {
+        console.log(e);
+        console.log('Server listening on: http://localhost:3000');
+    });
 }
 
-app
-    .use(loggerMiddleware)
-    .use(express.static(distDir));
-
-app.listen(3000, () => {
-    console.log('Server listening on: http://localhost:3000');
-});
