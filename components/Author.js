@@ -4,14 +4,15 @@ export default function Author({ organisation, author }) {
     if (author.html) {
         return (
             <div className="blog">
-            <div dangerouslySetInnerHTML={{ __html: author.html }} />
 
-            <h1>Blog posts</h1>
-            <ul>
-                {author.blogs.map(blog => {
-                    return <li key={blog.id}><a href={`/${organisation.id}/${author.id}/${blog.id}/`}>{blog.title}</a></li>;
-                })}
-            </ul>
+                <h1>Blog posts</h1>
+                <ul>
+                    {author.blogs.map(blog => {
+                        return <li key={blog.url}><a href={blog.url}>{blog.title}</a></li>;
+                    })}
+                </ul>
+
+                <div dangerouslySetInnerHTML={{ __html: author.html }} />
 
             </div>
         );
@@ -21,7 +22,7 @@ export default function Author({ organisation, author }) {
             <h1>{author.name}</h1>
 
             {author.image &&
-                <div style={{maxWidth: "150px"} }>
+                <div style={{ maxWidth: "150px" }}>
                     <img src={author.image} />
                 </div>
             }

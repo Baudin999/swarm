@@ -23,11 +23,12 @@ const distDir = join(rootDir, 'dist');
 
 
 // QUERIES
-const mapAuthorBlogs = (authorDir) => {
+const mapAuthorBlogs = (authorDir, orgId, authorId) => {
     return fs.readdirSync(authorDir, { withFileTypes: true })
         .filter(dirent => dirent.isDirectory())
         .map(dirent => {
-            return queryBlogData(authorDir, dirent);
+            let url = `/${orgId}/${authorId}/${dirent.name}/`;
+            return queryBlogData(authorDir, dirent.name, url);
         });
 };
 
@@ -36,7 +37,7 @@ const mapOrganisationAuthors = (organisationDir, orgId) => {
         .filter(dirent => dirent.isDirectory())
         .map(dirent => {
             var data = queryAuthorData(organisationDir, dirent, orgId);
-            var blogs = mapAuthorBlogs(data.path);
+            var blogs = mapAuthorBlogs(data.path, orgId, data.id);
             return { ...data, blogs };
         });
 };

@@ -66,18 +66,25 @@ export function queryAuthorData(organisationDir, dirent, orgId) {
     };
 }
 
-export function queryBlogData(authorDir, dirent) {
-    var blogDirPath = join(authorDir, dirent.name);
+export function queryBlogData(authorDir, blogName, url) {
+    var blogDirPath = join(authorDir, blogName);
     var markdownText = fs.readFileSync(join(blogDirPath, "index.md"), "utf8");
-    var md = new MarkdownIt();
     var config = fm(markdownText);
+    var md = new MarkdownIt();
     var html = md.render(config.body);
-    config.attributes.title = config.attributes.title || dirent.name;
+    config.attributes.title = config.attributes.title || blogName;
     if (!config.attributes.date) {
         config.attributes.date = fs.statSync(blogDirPath).ctime.toDateString("nl-NL");
     }
     else {
         config.attributes.date = moment(config.attributes.date, "DD-MM-YYYY").toDate().toDateString("nl-NL");
     }
-    return { id: dirent.name.toLowerCase(), path: join(authorDir, dirent.name), ...config.attributes, SEO: config.attributes, html };
+    return {
+        id: blogName.toLowerCase(),
+        path: join(authorDir, blogName),
+        ...config.attributes,
+        SEO: config.attributes,
+        url,
+        html
+    };
 }
