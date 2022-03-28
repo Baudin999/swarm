@@ -3,8 +3,10 @@
 @import "./blog.less";
 @import "./colors.less";
 
+@header-height: 104px;
+
 body {
-    padding-top: 50px;
+    padding-top: calc(@header-height + 10px);
 }
 
 .header {
@@ -19,7 +21,7 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    height: 104px;
+    height: @header-height;
     border-bottom: 1px solid @color-accent;
 
     .header-root {
@@ -43,6 +45,10 @@ body {
                     color: @color-accent;
                     text-decoration: none;
                     font-weight: bold;
+                }
+
+                &:hover {
+                    text-decoration: underline;
                 }
             }
         }

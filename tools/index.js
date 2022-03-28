@@ -31,15 +31,14 @@ const mapAuthorBlogs = (authorDir) => {
             var md = new MarkdownIt();
             var config = fm(markdownText);
             var html = md.render(config.body);
-            var title = config.attributes.title | dirent.name;
+            config.attributes.title = config.attributes.title || dirent.name;
             if (!config.attributes.date) {
                 config.attributes.date = fs.statSync(blogDirPath).ctime.toDateString("nl-NL");
             }
             else {
                 config.attributes.date = moment(config.attributes.date, "DD-MM-YYYY").toDate().toDateString("nl-NL");
             }
-            console.log(config.attributes);
-            return { id: dirent.name.toLowerCase(), path: join(authorDir, dirent.name), title, ...config.attributes, SEO: config.attributes, html };
+            return { id: dirent.name.toLowerCase(), path: join(authorDir, dirent.name), ...config.attributes, SEO: config.attributes, html };
         });
 };
 
