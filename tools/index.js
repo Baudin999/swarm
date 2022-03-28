@@ -8,13 +8,14 @@ import Author from "../components/Author";
 import Organisation from "../components/Organisation";
 import Blog from "../components/Blog";
 import Home from "../components/Home";
-import StyleGuide from "../components/StyleGuide";
-import MarkdownIt from "markdown-it";
-import fm from "front-matter";
+// import StyleGuide from "../components/StyleGuide";
+// import MarkdownIt from "markdown-it";
+// import fm from "front-matter";
 import prettyHtml from "html";
-import state from '../components/globalState';
-import Login from "../components/Login";
-import moment from "moment";
+import renderLogin from "./index.renderLogin";
+import renderStyleGuide from "./index.renderStyleGuide";
+import { queryOrganisationData, queryAuthorData, queryBlogData } from "./index.queries";
+import { setGlobalState } from "./index.globalState";
 
 // some setup to get to the root of the project
 const __dirname = process.cwd();
@@ -26,58 +27,17 @@ const mapAuthorBlogs = (authorDir) => {
     return fs.readdirSync(authorDir, { withFileTypes: true })
         .filter(dirent => dirent.isDirectory())
         .map(dirent => {
-            var blogDirPath = join(authorDir, dirent.name);
-            var markdownText = fs.readFileSync(join(blogDirPath, "index.md"), "utf8");
-            var md = new MarkdownIt();
-            var config = fm(markdownText);
-            var html = md.render(config.body);
-            config.attributes.title = config.attributes.title || dirent.name;
-            if (!config.attributes.date) {
-                config.attributes.date = fs.statSync(blogDirPath).ctime.toDateString("nl-NL");
-            }
-            else {
-                config.attributes.date = moment(config.attributes.date, "DD-MM-YYYY").toDate().toDateString("nl-NL");
-            }
-            return { id: dirent.name.toLowerCase(), path: join(authorDir, dirent.name), ...config.attributes, SEO: config.attributes, html };
+            return queryBlogData(authorDir, dirent);
         });
 };
-
 
 const mapOrganisationAuthors = (organisationDir, orgId) => {
     return fs.readdirSync(organisationDir, { withFileTypes: true })
         .filter(dirent => dirent.isDirectory())
         .map(dirent => {
-            var authorDirPath = join(organisationDir, dirent.name);
-            var authorInfoPath = join(authorDirPath, "info.json");
-            var authorId = dirent.name.toLowerCase();
-            var info = {};
-            if (fs.existsSync(authorInfoPath)) {
-                var infoText = fs.readFileSync(authorInfoPath, "utf8");
-                info = JSON.parse(infoText);
-            }
-            var markdownPath = join(authorDirPath, "index.md");
-            var html;
-            if (fs.existsSync(markdownPath)) {
-                var markdownText = fs.readFileSync(markdownPath, "utf8");
-                var md = new MarkdownIt();
-                var config = fm(markdownText);
-                info = { ...info, ...config.attributes };
-                html = md.render(config.body);
-            }
-            if (info.image) {
-                info.image = info.image.replace('./', `/${orgId}/${authorId}/`);
-            }
-            var blogs = mapAuthorBlogs(authorDirPath);
-            return {
-                id: authorId,
-                name: dirent.name,
-                org_id: orgId,
-                ...info,
-                SEO: info,
-                path: authorDirPath,
-                blogs,
-                html
-            };
+            var data = queryAuthorData(organisationDir, dirent, orgId);
+            var blogs = mapAuthorBlogs(data.path);
+            return { ...data, blogs };
         });
 };
 
@@ -86,69 +46,38 @@ const getOrganisations = (contentRoot) => {
         fs.readdirSync(contentRoot, { withFileTypes: true })
             .filter(dirent => dirent.isDirectory())
             .map(dirent => {
-                var orgId = dirent.name.toLowerCase();
-                var orgDirPath = join(contentRoot, dirent.name);
-                var orgInfoPath = join(orgDirPath, "info.json");
-                var info = {};
-                if (fs.existsSync(orgInfoPath)) {
-                    var infoText = fs.readFileSync(orgInfoPath, "utf8");
-                    info = JSON.parse(infoText);
-                }
-
-                var markdownPath = join(orgDirPath, "index.md");
-                var html;
-                if (fs.existsSync(markdownPath)) {
-                    var markdownText = fs.readFileSync(markdownPath, "utf8");
-                    var md = new MarkdownIt();
-                    var config = fm(markdownText);
-                    info = { ...info, ...config.attributes };
-                    html = md.render(config.body);
-                }
-
-                var authors = mapOrganisationAuthors(orgDirPath, orgId);
-                var organisaationResult = { id: orgId, path: orgDirPath, name: dirent.name, ...info, SEO: info, authors };
-                if (html) {
-                    organisaationResult.html = html;
-                }
-                return organisaationResult;
+                var data = queryOrganisationData(dirent, contentRoot);
+                var authors = mapOrganisationAuthors(data.path, data.id);
+                return { ...data, authors };
             });
 
     return organisations;
 };
 
+const saveIndexAndCopyDirectory = (html, fromDir, toDir) => {
+    if (!fs.existsSync(toDir)) {
+        fsExtra.mkdirpSync(toDir);
+    }
+    fs.writeFileSync(join(toDir, "index.html"), prettyHtml.prettyPrint(html, { indent_size: 4 }));
+    fsExtra.copySync(fromDir, toDir);
+};
 
 const saveBlogHtml = (html, distRootPath, blog, author, org) => {
-    var htmlPath = join(distRootPath, org.id, author.id, blog.id, "index.html");
-    var dirName = join(distRootPath, org.id, author.id, blog.id);
-    if (!fs.existsSync(dirName)) {
-        fs.mkdirSync(dirName, { recursive: true });
-    }
-    fs.writeFileSync(htmlPath, prettyHtml.prettyPrint(html, { indent_size: 4 }));
-    fs.writeFileSync(join(dirName, "index.json"), JSON.stringify(blog, null, 4));
-    fsExtra.copySync(blog.path, dirName);
+    var fromDir = blog.path;
+    var toDir = join(distRootPath, org.id, author.id, blog.id);
+    saveIndexAndCopyDirectory(html, fromDir, toDir);
 };
 
 const saveAuthorHtml = (html, distRootPath, author, org) => {
-    var htmlPath = join(distRootPath, org.id, author.id, "index.html");
-    var dirName = join(distRootPath, org.id, author.id);
-    if (!fs.existsSync(dirName)) {
-        fs.mkdirSync(dirName, { recursive: true });
-    }
-    fs.writeFileSync(htmlPath, prettyHtml.prettyPrint(html, { indent_size: 4 }));
-    fs.writeFileSync(join(dirName, "index.json"), JSON.stringify(author, null, 4));
-    fsExtra.copySync(author.path, dirName);
+    var fromDir = author.path;
+    var toDir = join(distRootPath, org.id, author.id);
+    saveIndexAndCopyDirectory(html, fromDir, toDir);
 };
 
 const saveOrganisationHtml = (html, distRootPath, org) => {
-    var htmlPath = join(distRootPath, org.id, "index.html");
-    var dirName = join(distRootPath, org.id);
-    if (!fs.existsSync(dirName)) {
-        fs.mkdirSync(dirName, { recursive: true });
-    }
-
-    fs.writeFileSync(htmlPath, prettyHtml.prettyPrint(html, { indent_size: 4 }));
-    fs.writeFileSync(join(dirName, "index.json"), JSON.stringify(org, null, 4));
-    fsExtra.copySync(org.path, dirName);
+    var fromDir = org.path;
+    var toDir = join(distRootPath, org.id);
+    saveIndexAndCopyDirectory(html, fromDir, toDir);
 };
 
 const saveHomeHtml = (html, distRootPath) => {
@@ -158,33 +87,17 @@ const saveHomeHtml = (html, distRootPath) => {
 };
 
 var organisations = getOrganisations(contentDir);
-state.setState('orgs', organisations);
 
-const allBlogs = [];
+// SET GLOBAL DATA
+setGlobalState(organisations);
+
+
+// CREATE ALL OF THE STATIC HTML PAGES
 organisations.forEach(org => {
     org.authors.forEach(author => {
         author.blogs.forEach(blog => {
-            var _blog = { ...blog };
-            delete _blog.SEO;
-            delete _blog.html;
 
-            allBlogs.push({
-                ..._blog,
-                author_id: author.id,
-                author_name: author.name,
-                link: `/${org.id}/${author.id}/${blog.id}`,
-                org_id: org.id,
-                org_name: org.name
-            });
-        });
-    });
-});
-state.setState('all_blogs', allBlogs);
-state.setState('authors', organisations.map(org => org.authors).flat(1));
-
-organisations.forEach(org => {
-    org.authors.forEach(author => {
-        author.blogs.forEach(blog => {
+            // RENDER ALL BLOGS
             var string = ReactDOMServer.renderToString((
                 <Page SEO={blog.SEO}>
                     <Blog organisation={org} author={author} blog={blog} />
@@ -194,7 +107,7 @@ organisations.forEach(org => {
             saveBlogHtml(string, distDir, blog, author, org);
         });
 
-
+        // RENDER ALL AUTHORS
         var authorString = ReactDOMServer.renderToString((
             <Page SEO={author.SEO}>
                 <Author organisation={org} author={author} />
@@ -203,6 +116,7 @@ organisations.forEach(org => {
         saveAuthorHtml(authorString, distDir, author, org);
     });
 
+    // RENDER ALL ORGANISATIONS
     var orgHtml = ReactDOMServer.renderToString((
         <Page SEO={org.SEO}>
             <Organisation organisation={org} />
@@ -212,8 +126,6 @@ organisations.forEach(org => {
 });
 
 // generate the index.html file
-
-
 var homeHtml = ReactDOMServer.renderToString((
     <Page SEO={{}}>
         <Home orgs={organisations} />
@@ -221,23 +133,9 @@ var homeHtml = ReactDOMServer.renderToString((
 );
 saveHomeHtml(homeHtml, distDir);
 
-var config = require("./../app.config.json");
+// THE APP.CONFIG FILE CONTAINS LOGIN INFORMATION FOR GITHUB
+renderLogin(distDir);
 
-function renderLogin(cnf) {
-    var loginHtml = ReactDOMServer.renderToString((
-        <Login clientId={cnf.clientId} />
-    ));
-    var loginHtmlPath = join(distDir, "login.html");
-    fs.writeFileSync(loginHtmlPath, prettyHtml.prettyPrint(loginHtml, { indent_size: 4 }));
-}
-renderLogin(config);
+// RENDER STYLEGUIDE
+renderStyleGuide(distDir);
 
-
-function renderStyleGuide() {
-    var styleguideHtml = ReactDOMServer.renderToString((
-        <StyleGuide />
-    ));
-    var styleguideHtmlPath = join(distDir, "styleguide.html");
-    fs.writeFileSync(styleguideHtmlPath, prettyHtml.prettyPrint(styleguideHtml, { indent_size: 4 }));
-}
-renderStyleGuide(config);
