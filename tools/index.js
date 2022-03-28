@@ -8,9 +8,7 @@ import Author from "../components/Author";
 import Organisation from "../components/Organisation";
 import Blog from "../components/Blog";
 import Home from "../components/Home";
-// import StyleGuide from "../components/StyleGuide";
-// import MarkdownIt from "markdown-it";
-// import fm from "front-matter";
+
 import prettyHtml from "html";
 import renderLogin from "./index.renderLogin";
 import renderStyleGuide from "./index.renderStyleGuide";
@@ -23,6 +21,8 @@ const rootDir = __dirname; //join(__dirname, '..');
 const contentDir = join(rootDir, 'content');
 const distDir = join(rootDir, 'dist');
 
+
+// QUERIES
 const mapAuthorBlogs = (authorDir) => {
     return fs.readdirSync(authorDir, { withFileTypes: true })
         .filter(dirent => dirent.isDirectory())
@@ -54,6 +54,8 @@ const getOrganisations = (contentRoot) => {
     return organisations;
 };
 
+
+// SAVE HTML FILES
 const saveIndexAndCopyDirectory = (html, fromDir, toDir) => {
     if (!fs.existsSync(toDir)) {
         fsExtra.mkdirpSync(toDir);
@@ -86,6 +88,7 @@ const saveHomeHtml = (html, distRootPath) => {
     fsExtra.copySync(contentDir, distRootPath);
 };
 
+// GET ALL THE DATA
 var organisations = getOrganisations(contentDir);
 
 // SET GLOBAL DATA
@@ -125,7 +128,7 @@ organisations.forEach(org => {
     saveOrganisationHtml(orgHtml, distDir, org);
 });
 
-// generate the index.html file
+// generate the home page, index.html file
 var homeHtml = ReactDOMServer.renderToString((
     <Page SEO={{}}>
         <Home orgs={organisations} />
