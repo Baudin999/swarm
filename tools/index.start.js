@@ -43,15 +43,43 @@ function run() {
             });
     };
 
-    const getOrganisations = (contentRoot) => {
+    const getContentDirectories = (contentRoot) => {
+        // everything is structured in teh content directory as
+        // content/<github user>/<github repo>/organisation/author/blog
+        // we will need to itterate the github users and the github repos
+        // to get to the actual content items.
+        // We also need to ignore the .git folders
+
+        var contentDirectories = fs.readdirSync(contentRoot, { withFileTypes: true })
+            .filter(githubUserDirent => githubUserDirent.isDirectory())
+            .map(githubUserDirent => { // the github users
+                var userPath = join(contentRoot, githubUserDirent.name);
+                return fs.readdirSync(userPath, { withFileTypes: true })
+                    .filter(githubRepoDirent => githubRepoDirent.isDirectory())
+                    .map(githubRepoDirent => { // the github repos
+                        return join(userPath, githubRepoDirent.name);
+                    });
+            })
+            .flat(2);
+        return contentDirectories;
+    };
+
+    const getOrganisations = (contentDirs) => {
+
         var organisations =
-            fs.readdirSync(contentRoot, { withFileTypes: true })
-                .filter(dirent => dirent.isDirectory())
-                .map(dirent => {
-                    var data = queryOrganisationData(dirent, contentRoot);
-                    var authors = mapOrganisationAuthors(data.path, data.id);
-                    return { ...data, authors };
-                });
+            contentDirs
+                .map(dir => {
+                    return fs.readdirSync(dir, { withFileTypes: true })
+                        .filter(dirent => dirent.isDirectory())
+                        .filter(dirent => dirent.name !== '.git')
+                        .map(dirent => {
+                            var data = queryOrganisationData(dirent, dir);
+                            var authors = mapOrganisationAuthors(data.path, data.id);
+                            return { ...data, authors };
+                        });
+                })
+                .flat(1);
+
 
         return organisations;
     };
@@ -87,11 +115,23 @@ function run() {
     const saveHomeHtml = (html, distRootPath) => {
         var htmlPath = join(distRootPath, "index.html");
         fs.writeFileSync(htmlPath, prettyHtml.prettyPrint(html, { indent_size: 4 }));
-        fsExtra.copySync(contentDir, distRootPath);
+
+        // write the random images and other files to the root of the dist.
+        contentDirectories.forEach(contentDir => {
+            fs.readdirSync(contentDir, { withFileTypes: true })
+                .filter(dirent => !dirent.isDirectory())
+                .forEach(dirent => {
+                    let from = join(contentDir, dirent.name);
+                    let to = join(distRootPath, dirent.name);
+                    fs.copyFileSync(from, to);
+                });
+
+        });
     };
 
     // GET ALL THE DATA
-    var organisations = getOrganisations(contentDir);
+    var contentDirectories = getContentDirectories(contentDir);
+    var organisations = getOrganisations(contentDirectories);
 
     // SET GLOBAL DATA
     setGlobalState(organisations);

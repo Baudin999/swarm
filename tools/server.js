@@ -1,27 +1,50 @@
-var express = require('express');
-var path = require('path');
+const express = require('express');
+const path = require('path');
+const fs = require('fs');
 
+
+function getStaticPathFromGithubUrl(url, dir) {
+    // example: https://github.com/Baudin999/swarm-content.git
+    var parts = url.split('\/');
+    var user = parts[3];
+    var repo = parts[4].replace('.git', '');
+
+    return path.join(dir, user, repo);
+}
 
 export default function (dir) {
     if (!dir) {
         const pwd = process.cwd();
-        dir = rootDir = pwd;
+        dir = pwd;
+        console.log(dir);
     }
-    let srcDir = path.join(dir, 'dist');
+    let distDir = path.join(dir, 'dist');
 
     var app = express();
 
     const loggerMiddleware = (req, res, next) => {
-        //console.log(req.path);
+        console.log(req.path);
         next();
     };
 
     app
         .use(loggerMiddleware)
-        .use(express.static(srcDir));
+        .use(express.static(distDir));
+
+    // var configJson = fs.readFileSync(path.join(dir, 'app.config.json'), 'utf8');
+    // var config = JSON.parse(configJson);
+    // config
+    //     .sources
+    //     .map(source => getStaticPathFromGithubUrl(source, distDir))
+    //     .forEach(sourceDir => {
+    //         console.log('statically serve from: ' + sourceDir);
+    //         app
+    //             .use(loggerMiddleware)
+    //             .use(express.static(sourceDir));
+    //     });
+
 
     app.listen(3000, (e) => {
-        console.log(e);
         console.log('Server listening on: http://localhost:3000');
     });
 }

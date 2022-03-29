@@ -5,7 +5,7 @@ import shebang from 'rollup-plugin-add-shebang';
 import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import css from "rollup-plugin-import-css";
-
+import copy from "rollup-plugin-copy-assets";
 
 
 const config = {
@@ -37,7 +37,13 @@ const config = {
             // pass custom options to the resolve plugin
             moduleDirectories: ['node_modules']
         }),
-        commonjs()
+        commonjs(),
+        copy({
+            assets: [
+                "styles",
+                "components"
+            ]
+        })
     ]
 };
 

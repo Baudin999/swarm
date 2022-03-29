@@ -8,7 +8,7 @@ import path from 'path';
 import fsExtra from 'fs-extra';
 import { program } from 'commander';
 import { listSources, getSwarmConfig, saveSwarmConfig } from './commands/list.js';
-import getContentFromRepos from './tools/github.js';
+import getContentFromRepos from './tools/importContent.js';
 import server from './tools/server';
 import build from './tools/index.start';
 import styles from './dist/styles.css';
@@ -65,7 +65,7 @@ content
 content
     .command('pull')
     .action(() => {
-        getContentFromRepos();
+        getContentFromRepos(currentDir);
     });
 content
     .command('build')
@@ -85,6 +85,9 @@ program
             ]
         };
         saveSwarmConfig(currentDir, config);
+        console.log();
+        console.log("Created the `app.config.json` containing:");
+        console.log(JSON.stringify(config, null, 4));
     });
 
 program

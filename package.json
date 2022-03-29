@@ -1,13 +1,17 @@
 {
-  "name": "swarm",
+  "name": "swarm-blog",
   "version": "0.0.0",
   "description": "The swarm static site generator",
   "main": "./tools/temp.js",
   "bin": {
     "swarm": "./output/index.js"
   },
+  "files": [
+    "./output/styles/**/*",
+    "./output/components/**/*"
+  ],
   "scripts": {
-    "server": "node tools/server.start.js",
+    "server": "babel-node tools/server.start.js",
     "import-content": "babel-node tools/github.js",
     "build-content": "babel-node ./tools/index.js",
     "import": "npm run import-content > npm run build-content",
@@ -17,10 +21,11 @@
     "watch-app": "nodemon --watch components tools --exec 'npm run build-content'",
     "watch-content": "nodemon --ext .* --watch content --exec 'npm run build-content'",
     "dev": "concurrently 'npm run watch-styles' 'npm run watch-app' 'npm run watch-content' 'npm run server' 'open http://localhost:3000'",
-    "link": "npm uninstall -g swarm > npm install -g",
+    "unlink": "npm uninstall -g swarm",
+    "link": "npm install -g",
     "rollup": "rollup -c"
   },
-  "author": "",
+  "author": "Baudin999",
   "license": "ISC",
   "dependencies": {
     "@babel/cli": "^7.17.6",
@@ -54,6 +59,7 @@
     "react-dom-server": "^0.0.5",
     "rollup": "^2.70.1",
     "rollup-plugin-add-shebang": "^0.3.1",
+    "rollup-plugin-copy-assets": "^2.0.3",
     "rollup-plugin-import-css": "^3.0.3"
   }
 }
