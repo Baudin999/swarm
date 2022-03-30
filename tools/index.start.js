@@ -8,6 +8,7 @@ import Author from "../components/Author";
 import Organisation from "../components/Organisation";
 import Blog from "../components/Blog";
 import Home from "../components/Home";
+import _ from 'lodash';
 
 import prettyHtml from "html";
 import renderLogin from "./index.renderLogin";
@@ -61,8 +62,19 @@ function run() {
                     });
             })
             .flat(2);
+
         return contentDirectories;
     };
+
+    const mergeOrg = (org1, org2) => {
+        let newAuthors = org1.authors;
+        if (org1.id === org2.id) {
+            newAuthors = [...org1.authors, ...org2.authors];
+        }
+        var newOrg = {...org1, ...org2};
+        newOrg.authors = newAuthors;
+        return newOrg;
+    }
 
     const getOrganisations = (contentDirs) => {
 
@@ -79,10 +91,27 @@ function run() {
                         });
                 })
                 .flat(1);
+        
+        // objects need to be merged if they start witht he same organisation
+        var orgs = {};
+        organisations.forEach(org => {
+            if (!orgs[org.id]) {
+                orgs[org.id] = org;
+            }
+            else {
+                let merged_object = mergeOrg(orgs[org.id], org);
+                console.log(merged_object);
+                orgs[org.id] = merged_object;
+            }
+        });
 
+        return Object
+            .keys(orgs)
+            .map(key => orgs[key]);
 
-        return organisations;
     };
+
+    
 
 
     // SAVE HTML FILES

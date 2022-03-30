@@ -3,9 +3,10 @@ import { join } from 'path';
 import MarkdownIt from "markdown-it";
 import fm from "front-matter";
 import moment from "moment";
+import _ from 'lodash';
 
 export function queryOrganisationData(dirent, contentRoot) {
-    var orgId = dirent.name.toLowerCase();
+    var orgId = _.kebabCase(dirent.name.toLowerCase());
     var orgDirPath = join(contentRoot, dirent.name);
     var orgInfoPath = join(orgDirPath, "info.json");
     var info = {};
@@ -36,7 +37,7 @@ export function queryOrganisationData(dirent, contentRoot) {
 export function queryAuthorData(organisationDir, dirent, orgId) {
     var authorDirPath = join(organisationDir, dirent.name);
     var authorInfoPath = join(authorDirPath, "info.json");
-    var authorId = dirent.name.toLowerCase();
+    var authorId = _.kebabCase(dirent.name.toLowerCase());
     var info = {};
     if (fs.existsSync(authorInfoPath)) {
         var infoText = fs.readFileSync(authorInfoPath, "utf8");
@@ -67,6 +68,7 @@ export function queryAuthorData(organisationDir, dirent, orgId) {
 }
 
 export function queryBlogData(authorDir, blogName, url) {
+    var blogId = _.kebabCase(blogName);
     var blogDirPath = join(authorDir, blogName);
     var markdownText = fs.readFileSync(join(blogDirPath, "index.md"), "utf8");
     var config = fm(markdownText);
@@ -80,7 +82,7 @@ export function queryBlogData(authorDir, blogName, url) {
         config.attributes.date = moment(config.attributes.date, "DD-MM-YYYY").toDate().toDateString("nl-NL");
     }
     return {
-        id: blogName.toLowerCase(),
+        id: blogId,
         path: join(authorDir, blogName),
         ...config.attributes,
         SEO: config.attributes,
