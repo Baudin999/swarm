@@ -3,5 +3,6 @@
 /temp
 /content
 /output
+/swarm-cli
 
 app.config.json

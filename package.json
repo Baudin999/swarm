@@ -4,7 +4,7 @@
   "description": "The swarm static site generator",
   "main": "./tools/temp.js",
   "bin": {
-    "swarm": "./output/index.js"
+    "swarm": "./swarm-cli/index.js"
   },
   "files": [
     "./output/styles/**/*",

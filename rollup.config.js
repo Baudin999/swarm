@@ -9,9 +9,9 @@ import copy from "rollup-plugin-copy-assets";
 
 
 const config = {
-    input: './index.js',
+    input: './cli/index.js',
     output: {
-        file: 'output/index.js',
+        file: 'swarm-cli/index.js',
         format: 'cjs',
     },
     external: [/@babel\/runtime/, 'react'],
@@ -31,19 +31,19 @@ const config = {
         }),
         rollupJson(),
         shebang({
-            include: 'output/index.js'
+            include: 'swarm-cli/index.js'
         }),
         resolve({
             // pass custom options to the resolve plugin
             moduleDirectories: ['node_modules']
         }),
         commonjs(),
-        copy({
-            assets: [
-                "styles",
-                "components"
-            ]
-        })
+        // copy({
+        //     assets: [
+        //         "styles",
+        //         "components"
+        //     ]
+        // })
     ]
 };
 

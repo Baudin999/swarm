@@ -8,10 +8,10 @@ import path from 'path';
 import fsExtra from 'fs-extra';
 import { program } from 'commander';
 import { listSources, getSwarmConfig, saveSwarmConfig } from './commands/list.js';
-import getContentFromRepos from './tools/importContent.js';
-import server from './tools/server';
-import build from './tools/index.start';
-import styles from './dist/styles.css';
+import getContentFromRepos from './../tools/importContent.js';
+import server from './../tools/server';
+import build from './../tools/index.start';
+import styles from './../dist/styles.css';
 
 
 const currentDir = process.cwd() || __dirname;
