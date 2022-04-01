@@ -11,7 +11,7 @@ export default function Home({ orgs }) {
         <div className="blog">
             <h1>Welcome to swarm</h1>
 
-            <h2>The organisations which we support</h2>
+            <h2>All the organisations</h2>
             <ul>
                 {orgs.map(org => {
                     return <li key={org.id}><a href={`/${org.id}`}>{org.name}</a></li>;

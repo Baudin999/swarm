@@ -2,7 +2,6 @@
   "name": "swarm",
   "version": "0.0.0",
   "description": "The swarm static site generator",
-  "main": "./tools/temp.js",
   "bin": {
     "swarm": "./swarm-cli/index.js"
   },
@@ -12,8 +11,8 @@
   ],
   "scripts": {
     "server": "babel-node tools/server.start.js",
-    "import-content": "babel-node tools/github.js",
-    "build-content": "babel-node ./tools/index.js",
+    "import-content": "babel-node tools/swarm.content.pull.start.js",
+    "build-content": "babel-node tools/swarm.builder.start.js",
     "import": "npm run import-content > npm run build-content",
     "build-styles": "lessc ./styles/root.less ./dist/styles.css",
     "build": "npm run build-content && npm run build-styles",
@@ -25,7 +24,7 @@
     "link": "npm install -g",
     "rollup": "npm run build-styles && rollup -c"
   },
-  "author": "Baudin999",
+  "author": "Carlos Kelkboom",
   "license": "ISC",
   "dependencies": {
     "@babel/cli": "^7.17.6",
