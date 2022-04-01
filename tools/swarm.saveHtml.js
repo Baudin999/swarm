@@ -11,8 +11,8 @@ import Home from "../components/Home";
 import _ from 'lodash';
 
 import prettyHtml from "html";
-import renderLogin from "./index.renderLogin";
-import renderStyleGuide from "./index.renderStyleGuide";
+import renderLogin from "./swarm.render.login";
+import renderStyleGuide from "./swarm.render.style-guide";
 
 
 function saveHtml(distDir, organisations, contentDirectories) {

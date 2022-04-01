@@ -1,8 +1,8 @@
 import fs from "fs";
 import { join } from 'path';
 import _ from 'lodash';
-import { queryOrganisationData, queryAuthorData, queryBlogData } from "./index.queries";
-import { setGlobalState } from "./index.globalState";
+import { queryOrganisationData, queryAuthorData, queryBlogData } from "./swarm.queries";
+import { setGlobalState } from "./swarm.render.global-state";
 import saveHtml from './swarm.saveHtml';
 
 
@@ -61,10 +61,10 @@ function run() {
         if (org1.id === org2.id) {
             newAuthors = [...org1.authors, ...org2.authors];
         }
-        var newOrg = {...org1, ...org2};
+        var newOrg = { ...org1, ...org2 };
         newOrg.authors = newAuthors;
         return newOrg;
-    }
+    };
 
     const getOrganisations = (contentDirs) => {
 
@@ -81,7 +81,7 @@ function run() {
                         });
                 })
                 .flat(1);
-        
+
         // objects need to be merged if they start witht he same organisation
         var orgs = {};
         organisations.forEach(org => {
@@ -90,7 +90,6 @@ function run() {
             }
             else {
                 let merged_object = mergeOrg(orgs[org.id], org);
-                console.log(merged_object);
                 orgs[org.id] = merged_object;
             }
         });
@@ -101,7 +100,7 @@ function run() {
 
     };
 
-    
+
 
 
     // GET ALL THE DATA
@@ -111,7 +110,7 @@ function run() {
     // SET GLOBAL DATA
     setGlobalState(organisations);
 
-    
+
     saveHtml(distDir, organisations, contentDirectories);
 }
 export default run;

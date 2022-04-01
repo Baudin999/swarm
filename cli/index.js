@@ -8,9 +8,9 @@ import path from 'path';
 import fsExtra from 'fs-extra';
 import { program } from 'commander';
 import { listSources, getSwarmConfig, saveSwarmConfig } from './commands/list.js';
-import getContentFromRepos from './../tools/importContent.js';
+import getContentFromRepos from '../tools/swarm.content.pull.js';
 import server from './../tools/server';
-import build from './../tools/index.start';
+import build from './../tools/swarm.builder';
 import styles from './../dist/styles.css';
 import { configName } from './../tools/swarm.settings.js';
 

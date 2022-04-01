@@ -2,7 +2,7 @@ import fs from 'fs';
 import cmd from 'node-cmd';
 import fsExtra from 'fs-extra';
 import { join } from 'path';
-import { configName } from '../tools/swarm.settings.js';
+import { configName } from './swarm.settings.js';
 
 function getUserNameFromGithubUrl(url) {
     // example: https://github.com/Baudin999/swarm-content.git
