@@ -31,18 +31,6 @@ export default function (dir) {
         .use(loggerMiddleware)
         .use(express.static(distDir));
 
-    // var configJson = fs.readFileSync(path.join(dir, 'app.config.json'), 'utf8');
-    // var config = JSON.parse(configJson);
-    // config
-    //     .sources
-    //     .map(source => getStaticPathFromGithubUrl(source, distDir))
-    //     .forEach(sourceDir => {
-    //         console.log('statically serve from: ' + sourceDir);
-    //         app
-    //             .use(loggerMiddleware)
-    //             .use(express.static(sourceDir));
-    //     });
-
 
     app.listen(3000, (e) => {
         console.log('Server listening on: http://localhost:3000');

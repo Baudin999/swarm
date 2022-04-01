@@ -12,6 +12,7 @@ import getContentFromRepos from './../tools/importContent.js';
 import server from './../tools/server';
 import build from './../tools/index.start';
 import styles from './../dist/styles.css';
+import { configName } from './../tools/swarm.settings.js';
 
 
 const currentDir = process.cwd() || __dirname;
@@ -86,7 +87,7 @@ program
         };
         saveSwarmConfig(currentDir, config);
         console.log();
-        console.log("Created the `app.config.json` containing:");
+        console.log(`Created the '${configName}' containing:`);
         console.log(JSON.stringify(config, null, 4));
     });
 
@@ -94,6 +95,20 @@ program
     .command('serve')
     .action(() => {
         server(currentDir);
+    });
+
+program
+    .command('reset')
+    .description('Reset the swarm application, delete everything in the directory.')
+    .action(() => {
+        fsExtra.remove(currentDir, (e) => {
+            if (e) {
+                console.log(e);
+            }
+            else {
+                console.log("Reset the swarm directory complete.");
+            }
+        });
     });
 
 program.parse();

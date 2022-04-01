@@ -2,6 +2,7 @@ import fs from 'fs';
 import cmd from 'node-cmd';
 import fsExtra from 'fs-extra';
 import { join } from 'path';
+import { configName } from '../tools/swarm.settings.js';
 
 function getUserNameFromGithubUrl(url) {
     // example: https://github.com/Baudin999/swarm-content.git
@@ -19,15 +20,15 @@ function getContentFromRepos(dir) {
 
     const tempDir = join(dir, 'temp');
     const contentDir = join(dir, 'content');
-    const configPath = join(dir, 'app.config.json');
+    const configPath = join(dir, configName);
 
     if (!fs.existsSync(configPath)) {
-        throw '"app.config.json" does not exists. Cannot pull from sources.';
+        throw `"${configName}" does not exists. Cannot pull from sources.`;
     }
 
     fsExtra.remove(contentDir, () => {
 
-        var configJson = fs.readFileSync(join(dir, 'app.config.json'), 'utf8');
+        var configJson = fs.readFileSync(join(dir, configName), 'utf8');
         var config = JSON.parse(configJson);
 
         if (!fs.existsSync(tempDir)) {

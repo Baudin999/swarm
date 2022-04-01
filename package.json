@@ -23,7 +23,7 @@
     "dev": "concurrently 'npm run watch-styles' 'npm run watch-app' 'npm run watch-content' 'npm run server' 'open http://localhost:3000'",
     "unlink": "npm uninstall -g swarm",
     "link": "npm install -g",
-    "rollup": "rollup -c"
+    "rollup": "npm run build-styles && rollup -c"
   },
   "author": "Baudin999",
   "license": "ISC",
@@ -47,7 +47,6 @@
     "express": "^4.17.3",
     "front-matter": "^4.0.2",
     "fs-extra": "^10.0.1",
-    "g": "^2.0.1",
     "html": "^1.0.0",
     "less": "^4.1.2",
     "lodash": "^4.17.21",
