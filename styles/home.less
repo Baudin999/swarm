@@ -1,0 +1,34 @@
+@import "./colors.less";
+
+.home {
+    width: 1024px;
+    height: 100%;
+    padding-bottom: 5rem;
+
+    margin-left: auto;
+    margin-right: auto;
+    overflow-y: auto;
+
+    .home--top-panel {
+        display: flex;
+        flex-direction: row;
+        height: 300px;
+
+        & > * {
+            padding: 2rem;
+        }
+
+        &--left {
+            width: 50%;
+            background-size: cover!important;
+            background-position: 50%;
+            color: @color-accent;
+        }
+
+        &--right {
+            width: 50%;
+            background-color: @color-accent;
+            color: white;
+        }
+    }
+}

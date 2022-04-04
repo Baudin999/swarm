@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import state from '../components/globalState';
 
 export function setGlobalState(organisations) {
@@ -22,6 +23,7 @@ export function setGlobalState(organisations) {
             });
         });
     });
-    state.setState('all_blogs', allBlogs);
+    var orderedBlogs = _.orderBy(allBlogs, ['date'], ['desc']);
+    state.setState('all_blogs', orderedBlogs);
     state.setState('authors', organisations.map(org => org.authors).flat(1));
 }

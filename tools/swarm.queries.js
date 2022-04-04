@@ -86,11 +86,12 @@ export function queryBlogData(authorDir, blogName, url) {
     var html = md.render(config.body);
     config.attributes.title = config.attributes.title || blogName;
     if (!config.attributes.date) {
-        config.attributes.date = fs.statSync(blogDirPath).ctime.toDateString("nl-NL");
+        config.attributes.date_real = fs.statSync(blogDirPath).ctime;
     }
     else {
-        config.attributes.date = moment(config.attributes.date, "DD-MM-YYYY").toDate().toDateString("nl-NL");
+        config.attributes.date_real = moment(config.attributes.date, "DD-MM-YYYY").toDate();
     }
+    config.attributes.date = config.attributes.date_real.toDateString('nl-NL');
     return {
         id: blogId,
         path: join(authorDir, blogName),
