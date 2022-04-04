@@ -13,6 +13,7 @@ import _ from 'lodash';
 import prettyHtml from "html";
 import renderLogin from "./swarm.render.login";
 import renderStyleGuide from "./swarm.render.style-guide";
+import state from '../components/globalState';
 
 
 function saveHtml(distDir, organisations, contentDirectories) {
@@ -66,16 +67,17 @@ function saveHtml(distDir, organisations, contentDirectories) {
             author.blogs.forEach(blog => {
 
                 // RENDER ALL BLOGS
+                state.setState('currentUrl', blog.url);
                 var string = ReactDOMServer.renderToString((
-                    <Page SEO={blog.SEO}>
+                    <Page SEO={blog.SEO} url={blog.url}>
                         <Blog organisation={org} author={author} blog={blog} />
                     </Page>)
                 );
-
                 saveBlogHtml(string, distDir, blog, author, org);
             });
 
             // RENDER ALL AUTHORS
+            state.setState('currentUrl', author.url);
             var authorString = ReactDOMServer.renderToString((
                 <Page SEO={author.SEO}>
                     <Author organisation={org} author={author} />
@@ -85,6 +87,7 @@ function saveHtml(distDir, organisations, contentDirectories) {
         });
 
         // RENDER ALL ORGANISATIONS
+        state.setState('currentUrl', org.url);
         var orgHtml = ReactDOMServer.renderToString((
             <Page SEO={org.SEO}>
                 <Organisation organisation={org} />
@@ -94,6 +97,7 @@ function saveHtml(distDir, organisations, contentDirectories) {
     });
 
     // generate the home page, index.html file
+    state.setState('currentUrl', '/');
     var homeHtml = ReactDOMServer.renderToString((
         <Page SEO={{}}>
             <Home orgs={organisations} />
@@ -102,9 +106,11 @@ function saveHtml(distDir, organisations, contentDirectories) {
     saveHomeHtml(homeHtml, distDir);
 
     // THE APP.CONFIG FILE CONTAINS LOGIN INFORMATION FOR GITHUB
+    state.setState('currentUrl', '/login');
     renderLogin(distDir);
 
     // RENDER STYLEGUIDE
+    state.setState('currentUrl', '/styleguide');
     renderStyleGuide(distDir);
 }
 

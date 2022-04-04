@@ -1,4 +1,4 @@
-
+import path from 'path';
 
 /*
 This file contains the settings of the swarm application.
@@ -13,3 +13,4 @@ directories of swarm from this single file.
 */
 
 export const rootDir = process.cwd();
+export const distDir = path.join(rootDir, 'dist');

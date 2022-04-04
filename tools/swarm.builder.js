@@ -23,7 +23,7 @@ function run() {
             });
     };
 
-    const mapOrganisationAuthors = (organisationDir, orgId) => {
+    const mapOrganisationAuthors = (organisationDir, orgId, orgName) => {
         return fs.readdirSync(organisationDir, { withFileTypes: true })
             .filter(dirent => dirent.isDirectory())
             .map(dirent => {
@@ -75,13 +75,13 @@ function run() {
                         .filter(dirent => dirent.name !== '.git')
                         .map(dirent => {
                             var data = queryOrganisationData(dirent, dir);
-                            var authors = mapOrganisationAuthors(data.path, data.id);
+                            var authors = mapOrganisationAuthors(data.path, data.id, data.name);
                             return { ...data, authors };
                         });
                 })
                 .flat(1);
 
-        // objects need to be merged if they start witht he same organisation
+        // objects need to be merged if they start with the same organisation
         var orgs = {};
         organisations.forEach(org => {
             if (!orgs[org.id]) {

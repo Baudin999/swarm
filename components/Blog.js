@@ -1,8 +1,9 @@
 import React from "react";
 
 export default function Blog({ organisation, author, blog }) {
-    // console.log(blog.description);
-    // console.log(author);
+    
+
+
     return (
         <div className="blog">
             <div className="blog--title">{blog.title}</div>
@@ -30,6 +31,9 @@ export default function Blog({ organisation, author, blog }) {
             <div>
                 <div dangerouslySetInnerHTML={{ __html: blog.html }} />
             </div>
+
+            <div id="comments" />
+            <script src="/comments.js"></script>
         </div>
     );
 }

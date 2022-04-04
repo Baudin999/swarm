@@ -37,13 +37,7 @@ const config = {
             // pass custom options to the resolve plugin
             moduleDirectories: ['node_modules']
         }),
-        commonjs(),
-        // copy({
-        //     assets: [
-        //         "styles",
-        //         "components"
-        //     ]
-        // })
+        commonjs()
     ]
 };
 

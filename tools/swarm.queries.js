@@ -26,7 +26,14 @@ export function queryOrganisationData(dirent, contentRoot) {
     }
 
 
-    var organisaationResult = { id: orgId, path: orgDirPath, name: dirent.name, ...info, SEO: info };
+    var organisaationResult = { 
+        id: orgId, 
+        path: orgDirPath, 
+        name: dirent.name, 
+        url: `/${orgId}`,
+        ...info, 
+        SEO: info 
+    };
     if (html) {
         organisaationResult.html = html;
     }
@@ -34,7 +41,8 @@ export function queryOrganisationData(dirent, contentRoot) {
 }
 
 
-export function queryAuthorData(organisationDir, dirent, orgId) {
+export function queryAuthorData(organisationDir, dirent, orgId, orgName) {
+    orgName = orgName || orgId;
     var authorDirPath = join(organisationDir, dirent.name);
     var authorInfoPath = join(authorDirPath, "info.json");
     var authorId = _.kebabCase(dirent.name.toLowerCase());
@@ -60,9 +68,11 @@ export function queryAuthorData(organisationDir, dirent, orgId) {
         id: authorId,
         name: dirent.name,
         org_id: orgId,
+        org_name: orgName,
         ...info,
         SEO: info,
         path: authorDirPath,
+        url: `/${orgId}/${authorId}/`,
         html
     };
 }

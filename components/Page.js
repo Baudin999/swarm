@@ -17,11 +17,15 @@ export default function Page({SEO, children}) {
                 {SEO.description && <meta name="description" content={SEO.description} />}
 
                 <link rel="stylesheet" type="text/css" href="/styles.css" />
+                
+                <script crossOrigin="true" src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+                <script crossOrigin="true" src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
             </head>
             <body>
                 <Layout>
                     {children}
                 </Layout>
+
             </body>
         </html>
     );
