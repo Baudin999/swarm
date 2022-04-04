@@ -22,7 +22,7 @@ export default function (dir) {
     app.use(express.json());
 
     const loggerMiddleware = (req, res, next) => {
-        console.log(req.path);
+        // console.log(req.path);
         next();
     };
 
@@ -36,7 +36,7 @@ export default function (dir) {
 
     app.get('/comments', (req, res) => {
         let { slug } = req.query;
-        
+
         if (slug) {
             let commentPath = path.join(distDir, slugToPath(slug));
             if (fs.existsSync(commentPath)) {
@@ -52,11 +52,11 @@ export default function (dir) {
                 return;
             }
         }
-        res.end('Errors')
+        res.end('Errors');
     });
 
     app.post('/comments', (req, res) => {
-        console.log(req.body)
+        console.log(req.body);
         let { slug } = req.query;
         let comments = [];
         if (slug) {
@@ -69,7 +69,7 @@ export default function (dir) {
             console.log(comments);
             fs.writeFileSync(commentPath, JSON.stringify(comments, null, 4));
         }
-        res.send({status: 500})
+        res.send({ status: 500 });
     });
 
 
