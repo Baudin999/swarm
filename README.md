@@ -1,5 +1,18 @@
 # Swarm: The simple Blog app
 
+To get started quickly with development on swarm you can:
+
+ 1. `git clone https://github.com/Baudin999/swarm.git`
+ 1. `npm i` or `yarn`
+ 1. `npm run dev-init`
+ 1. `npm run dev`
+
+A file watcher will start, a browser window will open and you can start hackin on swarm!
+
+
+
+# Rationale
+
 
 How to get started with developement:
 
