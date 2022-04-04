@@ -5,7 +5,7 @@ export default function Blog({ organisation, author, blog }) {
 
 
     return (
-        <div className="container">
+        <div className="blog-container">
             <div className="blog">
                 <div className="blog--title">{blog.title}</div>
                 {blog.description && <div className="blog--description">{blog.description}</div>}

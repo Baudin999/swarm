@@ -11,7 +11,7 @@ export default function Home({ orgs }) {
     var topFour = rest.slice(0, 4);
 
     return (
-        <div className="container">
+        <div className="home-container">
             <div className="home">
                 <div className="home--top-panel">
                     <div className="home--top-panel--left">
@@ -32,7 +32,7 @@ export default function Home({ orgs }) {
                 </div>
 
 
-                <h2>All the organizations</h2>
+                <h2>All the organizations!</h2>
                 <ul>
                     {orgs.map(org => {
                         return <li key={org.id}><a href={`/${org.id}`}>{org.name}</a></li>;

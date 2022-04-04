@@ -43,7 +43,7 @@ const AuthorPill = function ({ author, organisation }) {
 
 export default function Author({ organisation, author }) {
     return (
-        <div className="container">
+        <div className="author-container">
             <div className="author-page">
                 <div className="author-page--content">
                     <AuthorHeading author={author} />

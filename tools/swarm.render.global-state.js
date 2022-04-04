@@ -23,7 +23,9 @@ export function setGlobalState(organisations) {
             });
         });
     });
-    var orderedBlogs = _.orderBy(allBlogs, ['date'], ['desc']);
+
+
+    var orderedBlogs = _.orderBy(allBlogs, ['date_real', 'name'], ['desc', 'asc']);
     state.setState('all_blogs', orderedBlogs);
     state.setState('authors', organisations.map(org => org.authors).flat(1));
 }

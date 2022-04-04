@@ -1,6 +1,6 @@
-import React from "react"
-import Page from "./Page"
-import globalState from './globalState.js'
+import React from "react";
+import Page from "./Page";
+import globalState from './globalState.js';
 
 export default function Styleguide() {
     // get the content from the global
@@ -58,13 +58,15 @@ button.addEventListener('click', search, false);
 
     return (
         <Page>
-            <input id="search-field" />
-            <button id="search-field-execute">Search</button>
+            <div className="container">
+                <input id="search-field" />
+                <button id="search-field-execute">Search</button>
 
-            <div id="search-results" />
-            <div dangerouslySetInnerHTML={{ __html: html }} />
+                <div id="search-results" />
+                <div dangerouslySetInnerHTML={{ __html: html }} />
+            </div>
         </Page>
-    )
+    );
 
 
 
