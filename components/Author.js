@@ -6,7 +6,7 @@ const AuthorBlogs = function({ blogs }) {
             <h2>Blog posts</h2>
             <ul>
                 {blogs.map(blog => {
-                    return <li key={blog.url}><a href={blog.url}>{blog.title}</a></li>;
+                    return <li className="blog-list-item" key={blog.url}><a href={blog.url}>{blog.title}</a></li>;
                 })}
             </ul>
         </>
@@ -17,6 +17,7 @@ const AuthorHeading = function({author}) {
     return (
         <>
             <h2>{author.name}</h2>
+            {author.description && <div className="author-page--content--description">{author.description}</div>}
             {author.html && <div dangerouslySetInnerHTML={{ __html: author.html }} />}
         </>
     );
