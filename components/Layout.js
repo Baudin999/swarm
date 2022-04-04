@@ -3,9 +3,11 @@ import Header from "./details/Header"
 
 export default function Layout({ children }) {
     return (
-        <div>
+        <div className="root">
             <Header />
-            {children}
+            <div className="root--content">
+                {children}
+            </div>
         </div>
     );
 }

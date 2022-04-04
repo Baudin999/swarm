@@ -1,41 +1,36 @@
 import React from "react";
 
-export default function Author({ organisation, author }) {
-    if (author.html) {
-        return (
-            <div className="blog">
-
-                <h1>Blog posts</h1>
-                <ul>
-                    {author.blogs.map(blog => {
-                        return <li key={blog.url}><a href={blog.url}>{blog.title}</a></li>;
-                    })}
-                </ul>
-
-                <div dangerouslySetInnerHTML={{ __html: author.html }} />
-
-            </div>
-        );
-    }
+const AuthorBlogs = function({ blogs }) {
     return (
-        <div className="blog">
-            <h1>{author.name}</h1>
-
-            {author.image &&
-                <div style={{ maxWidth: "150px" }}>
-                    <img src={author.image} />
-                </div>
-            }
-
-            <div>
-                <span>Works for: </span>
-                <a href={`/${organisation.id}`}>{organisation.name}</a>
-            </div>
+        <>
+            <h2>Blog posts</h2>
             <ul>
-                {author.blogs.map(blog => {
-                    return <li key={blog.id}><a href={`/${organisation.id}/${author.id}/${blog.id}/`}>{blog.title}</a></li>;
+                {blogs.map(blog => {
+                    return <li key={blog.url}><a href={blog.url}>{blog.title}</a></li>;
                 })}
             </ul>
-        </div>
+        </>
     );
+}
+
+const AuthorHeading = function({author}) {
+    return (
+        <>
+            <h2>{author.name}</h2>
+            {author.html && <div dangerouslySetInnerHTML={{ __html: author.html }} />}
+        </>
+    );
+}
+
+export default function Author({ organisation, author }) {
+    return (
+        <div className="author-page">
+            <div className="author-page--content">
+                <AuthorHeading author={author} />
+            </div>
+            <div className="author-page--recent-blogs">
+                <AuthorBlogs blogs={author.blogs} />
+            </div>
+        </div>
+    )
 }
