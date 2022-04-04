@@ -4,7 +4,6 @@
 
 const BlogComments = () => {
     const [comments, setComment] = React.useState([]);
-    
     const {pathname} = window.location;
 
     fetch(`/comments?slug=${pathname}`).then(r => r.json()).then(r => {

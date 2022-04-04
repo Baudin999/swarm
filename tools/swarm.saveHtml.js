@@ -13,6 +13,7 @@ import _ from 'lodash';
 import prettyHtml from "html";
 import renderLogin from "./swarm.render.login";
 import renderStyleGuide from "./swarm.render.style-guide";
+import renderSearch from "./swarm.render.search";
 import state from '../components/globalState';
 
 
@@ -112,6 +113,10 @@ function saveHtml(distDir, organisations, contentDirectories) {
     // RENDER STYLEGUIDE
     state.setState('currentUrl', '/styleguide');
     renderStyleGuide(distDir);
+
+    // RENDER SEARCH
+    state.setState('currentUrl', '/search');
+    renderSearch(distDir);
 }
 
 export default saveHtml;

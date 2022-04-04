@@ -24,7 +24,9 @@ export default function Header() {
                         )
                     })}
                     <li><a href="/styleguide.html">Style guide</a></li>
+                    <li><a href="/search.html">Search</a></li>
                 </ul>
+
             </div>
         </div>
     );
