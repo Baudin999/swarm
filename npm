@@ -1,0 +1,8 @@
+
+> swarm@0.0.0 import-content
+> babel-node tools/swarm.content.pull.start.js "run" "build-content"
+
+Cloning into: /Users/essent/Projects/swarm/temp/Baudin999
+Cloning into: /Users/essent/Projects/swarm/temp/Baudin999
+Successfully cloned https://github.com/Baudin999/swarm-sample-content.git to /Users/essent/Projects/swarm/content
+Successfully cloned https://github.com/Baudin999/swarm-content.git to /Users/essent/Projects/swarm/content

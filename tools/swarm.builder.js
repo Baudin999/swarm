@@ -4,12 +4,11 @@ import _ from 'lodash';
 import { queryOrganisationData, queryAuthorData, queryBlogData } from "./swarm.queries";
 import { setGlobalState } from "./swarm.render.global-state";
 import saveHtml from './swarm.saveHtml';
+import {rootDir} from './swarm.settings';
 
 
 function run() {
     // some setup to get to the root of the project
-    const __dirname = process.cwd();
-    const rootDir = __dirname;
     const contentDir = join(rootDir, 'content');
     const distDir = join(rootDir, 'dist');
 

@@ -1,3 +1,4 @@
-import run from './importContent';
+import run from './swarm.content.pull';
+import { rootDir } from './swarm.settings';
 
-run(process.cwd());
+run(rootDir);

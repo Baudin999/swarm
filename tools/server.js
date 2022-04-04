@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const fs = require('fs');
+import { rootDir } from './swarm.settings';
 
 
 function getStaticPathFromGithubUrl(url, dir) {
@@ -13,12 +13,7 @@ function getStaticPathFromGithubUrl(url, dir) {
 }
 
 export default function (dir) {
-    if (!dir) {
-        const pwd = process.cwd();
-        dir = pwd;
-        console.log(dir);
-    }
-    let distDir = path.join(dir, 'dist');
+    let distDir = path.join(dir || rootDir, 'dist');
 
     var app = express();
 

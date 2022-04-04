@@ -6,7 +6,14 @@ const AuthorBlogs = function({ blogs }) {
             <h2>Blog posts</h2>
             <ul>
                 {blogs.map(blog => {
-                    return <li className="blog-list-item" key={blog.url}><a href={blog.url}>{blog.title}</a></li>;
+                    return (
+                        <li className="blog-list-item" key={blog.url}>
+                            <a href={blog.url}>
+                                <span>{blog.title}</span>
+                                <span>{blog.date}</span>
+                            </a>
+                        </li>
+                    );
                 })}
             </ul>
         </>
@@ -20,6 +27,15 @@ const AuthorHeading = function({author}) {
             {author.description && <div className="author-page--content--description">{author.description}</div>}
             {author.html && <div dangerouslySetInnerHTML={{ __html: author.html }} />}
         </>
+    );
+}
+
+const AuthorPill = function({author, organisation}) {
+    return (
+        <div>
+            <div>{author.name}</div>
+            <div>{organisation.name}</div>
+        </div>
     );
 }
 
