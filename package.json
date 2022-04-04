@@ -23,7 +23,8 @@
     "dev": "concurrently \"npm run watch-styles\" \"npm run watch-app\" \"npm run watch-content\" \"npm run browser-sync\"",
     "unlink": "npm uninstall -g swarm",
     "link": "npm install -g",
-    "rollup": "npm run build-styles && rollup -c"
+    "rollup": "npm run build-styles && rollup -c",
+    "dev-init": "npm run rollup && npm uninstall -g swarm && npm i -g && swarm init && swarm content pull && swarm content build"
   },
   "author": "Carlos Kelkboom",
   "license": "ISC",
