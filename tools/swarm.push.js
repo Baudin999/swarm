@@ -16,7 +16,9 @@ function run() {
     }
 
     cmd.run(`cd ${distDir} && git init`, () => {
+        console.log("Initializaed git repository.");
         cmd.run(`git remote add origin ${config.publish}`, () => {
+            console.log("Added remote origin: " + config.publish);
             cmd.run('git add .', () => {
                 cmd.run('git commit -m "pushish"', () => {
                     cmd.run('git push -f origin master', () => {
