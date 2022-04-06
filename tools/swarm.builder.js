@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { queryOrganisationData, queryAuthorData, queryBlogData } from "./swarm.queries";
 import { setGlobalState } from "./swarm.render.global-state";
 import saveHtml from './swarm.saveHtml';
-import {rootDir} from './swarm.settings';
+import { rootDir } from './swarm.settings';
 
 
 function run() {

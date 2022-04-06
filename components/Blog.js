@@ -33,8 +33,10 @@ export default function Blog({ organisation, author, blog }) {
                     <div dangerouslySetInnerHTML={{ __html: blog.html }} />
                 </div>
 
-                <div id="comments" />
-                <script src="/comments.js"></script>
+                {blog.comments && (<>
+                    <div id="comments" />
+                    <script src="/comments.js"></script>
+                </>)}
             </div>
         </div>
     );

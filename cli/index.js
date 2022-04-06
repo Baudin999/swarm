@@ -11,6 +11,7 @@ import { listSources, getSwarmConfig, saveSwarmConfig } from './commands/list.js
 import getContentFromRepos from '../tools/swarm.content.pull.js';
 import server from './../tools/server';
 import build from './../tools/swarm.builder';
+import push from './../tools/swarm.push';
 import styles from './../dist/styles.css';
 import { configName } from './../tools/swarm.settings.js';
 
@@ -67,6 +68,12 @@ content
     .command('pull')
     .action(() => {
         getContentFromRepos(currentDir);
+    });
+content
+    .command('push')
+    .description('Push the content to a GitHub repository which is specified in the swarm.config.json file.')
+    .action(() => {
+        push();
     });
 content
     .command('build')

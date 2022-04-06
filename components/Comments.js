@@ -4,7 +4,7 @@
 
 const BlogComments = () => {
     const [comments, setComment] = React.useState([]);
-    const {pathname} = window.location;
+    const { pathname } = window.location;
 
     fetch(`/comments?slug=${pathname}`).then(r => r.json()).then(r => {
         // comments = r;
@@ -14,45 +14,45 @@ const BlogComments = () => {
     function submitComment() {
         var textarea = document.getElementById('comment-blog');
         var text = textarea.value;
-        var body = JSON.stringify({comment: text});
+        var body = JSON.stringify({ comment: text });
 
 
         fetch("/comments?slug=" + pathname, {
-            
+
             // Adding method type
             method: "POST",
-            
+
             // Adding body or contents to send
             body,
-            
+
             // Adding headers to the request
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
             }
         })
-        
-        // Converting to JSON
-        .then(response => response.json())
-        
-        // Displaying results to console
-        .then(json => console.log(json));
+
+            // Converting to JSON
+            .then(response => response.json())
+
+            // Displaying results to console
+            .then(json => console.log(json));
 
 
     }
 
     return (
-        <div>
-            <h1>Comments</h1>
+        <div class="comment-container">
+            <h1>Leave a comment</h1>
             {comments.map(c => (<div>{c.comment}</div>))}
 
             <textarea id="comment-blog"></textarea>
             <button onClick={submitComment}>Submit</button>
         </div>
     );
-}
+};
 
 ReactDOM.render(
-  <BlogComments />,
-  document.querySelector('#comments')
+    <BlogComments />,
+    document.querySelector('#comments')
 );
 

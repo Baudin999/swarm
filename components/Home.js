@@ -25,33 +25,37 @@ export default function Home({ orgs }) {
                     <div className="home--top-panel--right">
                         <ul>
                             {topFour.map(blog => {
-                                return <li key={blog.id}><a href={blog.link}>{blog.author_name} - {blog.title}</a></li>;
+                                return (
+                                    <li key={blog.id}>
+                                        <a href={blog.link}>{blog.author_name} - {blog.title}</a>
+                                    </li>
+                                );
                             })}
                         </ul>
                     </div>
                 </div>
 
 
-                <h2>All the organizations!</h2>
+                {/* <h2>All the organizations!</h2>
                 <ul>
                     {orgs.map(org => {
                         return <li key={org.id}><a href={`/${org.id}`}>{org.name}</a></li>;
                     })}
-                </ul>
+                </ul> */}
 
-                <h2>All the authors</h2>
+                {/* <h2>All the authors</h2>
                 <ul>
                     {authors.map(author => {
                         return <li key={author.id}><a href={`/${author.org_id}/${author.id}`}>{author.name}</a></li>;
                     })}
-                </ul>
+                </ul> */}
 
-                <h2>All the blogs</h2>
+                {/* <h2>All the blogs</h2>
                 <ul>
                     {allBlogs.map(blog => {
                         return <li key={blog.id}><a href={blog.link}>{blog.author_name} - {blog.title}</a></li>;
                     })}
-                </ul>
+                </ul> */}
             </div>
         </div>
     );
