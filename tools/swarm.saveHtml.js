@@ -17,7 +17,7 @@ import renderSearch from "./swarm.render.search";
 import state from '../components/globalState';
 
 
-function saveHtml(distDir, organisations, contentDirectories) {
+function saveHtml(distDir, baseUrl = '/', organisations, contentDirectories) {
     // SAVE HTML FILES
     const saveIndexAndCopyDirectory = (html, fromDir, toDir) => {
         if (!fs.existsSync(toDir)) {
@@ -70,7 +70,7 @@ function saveHtml(distDir, organisations, contentDirectories) {
                 // RENDER ALL BLOGS
                 state.setState('currentUrl', blog.url);
                 var string = ReactDOMServer.renderToString((
-                    <Page SEO={blog.SEO} url={blog.url}>
+                    <Page SEO={blog.SEO} url={blog.url} baseUrl={baseUrl}>
                         <Blog organisation={org} author={author} blog={blog} />
                     </Page>)
                 );
@@ -80,7 +80,7 @@ function saveHtml(distDir, organisations, contentDirectories) {
             // RENDER ALL AUTHORS
             state.setState('currentUrl', author.url);
             var authorString = ReactDOMServer.renderToString((
-                <Page SEO={author.SEO}>
+                <Page SEO={author.SEO} baseUrl={baseUrl}>
                     <Author organisation={org} author={author} />
                 </Page>)
             );
@@ -90,7 +90,7 @@ function saveHtml(distDir, organisations, contentDirectories) {
         // RENDER ALL ORGANISATIONS
         state.setState('currentUrl', org.url);
         var orgHtml = ReactDOMServer.renderToString((
-            <Page SEO={org.SEO}>
+            <Page SEO={org.SEO} baseUrl={baseUrl}>
                 <Organisation organisation={org} />
             </Page>)
         );
@@ -100,7 +100,7 @@ function saveHtml(distDir, organisations, contentDirectories) {
     // generate the home page, index.html file
     state.setState('currentUrl', '/');
     var homeHtml = ReactDOMServer.renderToString((
-        <Page SEO={{}}>
+        <Page SEO={{}} baseUrl={baseUrl}>
             <Home orgs={organisations} />
         </Page>)
     );
@@ -108,15 +108,15 @@ function saveHtml(distDir, organisations, contentDirectories) {
 
     // THE APP.CONFIG FILE CONTAINS LOGIN INFORMATION FOR GITHUB
     state.setState('currentUrl', '/login');
-    renderLogin(distDir);
+    renderLogin(distDir, baseUrl);
 
     // RENDER STYLEGUIDE
     state.setState('currentUrl', '/styleguide');
-    renderStyleGuide(distDir);
+    renderStyleGuide(distDir, baseUrl);
 
     // RENDER SEARCH
     state.setState('currentUrl', '/search');
-    renderSearch(distDir);
+    renderSearch(distDir, baseUrl);
 }
 
 export default saveHtml;

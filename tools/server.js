@@ -1,8 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
-const bodyParser = require('body-parser');
-import { rootDir, distDir } from './swarm.settings';
+import { distDir } from './swarm.settings';
 
 
 function getStaticPathFromGithubUrl(url, dir) {
@@ -14,11 +13,8 @@ function getStaticPathFromGithubUrl(url, dir) {
     return path.join(dir, user, repo);
 }
 
-export default function (dir) {
-    let distDir = path.join(dir || rootDir, 'dist');
-
+export default function () {
     var app = express();
-
     app.use(express.json());
 
     const loggerMiddleware = (req, res, next) => {
@@ -26,9 +22,6 @@ export default function (dir) {
         next();
     };
 
-    app.get('/hello', (req, res) => {
-        res.end('world');
-    });
 
     function slugToPath(slug) {
         return slug.replace(/\//g, '_').replace(/\\/g, '_');

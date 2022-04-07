@@ -4,14 +4,10 @@ import _ from 'lodash';
 import { queryOrganisationData, queryAuthorData, queryBlogData } from "./swarm.queries";
 import { setGlobalState } from "./swarm.render.global-state";
 import saveHtml from './swarm.saveHtml';
-import { rootDir } from './swarm.settings';
+import { rootDir, distDir, distPublicDir, contentDir, getSettings } from './swarm.settings';
 
 
 function run() {
-    // some setup to get to the root of the project
-    const contentDir = join(rootDir, 'content');
-    const distDir = join(rootDir, 'dist');
-
 
     // QUERIES
     const mapAuthorBlogs = (authorDir, orgId, authorId) => {
@@ -34,7 +30,7 @@ function run() {
     };
 
     const getContentDirectories = (contentRoot) => {
-        // everything is structured in teh content directory as
+        // everything is structured in the content directory as
         // content/<github user>/<github repo>/organisation/author/blog
         // we will need to itterate the github users and the github repos
         // to get to the actual content items.
@@ -108,8 +104,6 @@ function run() {
 
     // SET GLOBAL DATA
     setGlobalState(organisations);
-
-
-    saveHtml(distDir, organisations, contentDirectories);
+    saveHtml(distDir, null, organisations, contentDirectories);
 }
 export default run;

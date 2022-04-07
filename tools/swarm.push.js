@@ -17,13 +17,15 @@ function run() {
 
     cmd.run(`cd ${distDir} && git init`, () => {
         console.log("Initializaed git repository.");
-        cmd.run(`git remote add origin ${config.publish}`, () => {
+        cmd.run(`cd ${distDir} && git remote add origin ${config.publish}`, () => {
             console.log("Added remote origin: " + config.publish);
-            cmd.run('git add .', () => {
-                cmd.run('git commit -m "pushish"', () => {
-                    cmd.run('git push -f origin master', () => {
-                        console.log("Successfully pushed to repository.");
-                        fsExtra.remove(join(distDir, '.git'));
+            cmd.run(`cd ${distDir} && git pull origin master`, () => {
+                cmd.run(`cd ${distDir} && git add .`, () => {
+                    cmd.run(`cd ${distDir} && git commit -m "pushish"`, () => {
+                        cmd.run(`cd ${distDir} && git push -f origin master`, () => {
+                            console.log("Successfully pushed to repository.");
+                            // fsExtra.remove(join(distDir, '.git'));
+                        });
                     });
                 });
             });
