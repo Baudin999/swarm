@@ -86,6 +86,7 @@ export function queryBlogData(authorDir, author, blogName, url) {
     var html = md.render(config.body);
     config.attributes.title = config.attributes.title || blogName;
     config.attributes.tags = (config.attributes.tags || []).map(tag => tag.toLowerCase());
+    config.attributes.author = config.attributes.author || author.name;
     if (!config.attributes.date) {
         config.attributes.date_real = fs.statSync(blogDirPath).ctime;
     }

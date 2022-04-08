@@ -16,14 +16,23 @@ export default function Header() {
                             <img src="/logo-essent.png" />
                         </a>
                     </li>
-                    {tags.map(tag => {
-                        return (
-                            <li className={currentUrl.startsWith(tag) ? 'selected' : ''}
-                                key={tag}>
-                                <a href={"/" + tag + ".html"}>{tag}</a >
-                            </li>
-                        );
-                    })}
+
+                    <li>
+                        <ul className="tags">
+                            {tags.map((tag, i) => {
+                                return (
+
+                                    <li className={currentUrl.startsWith(tag) ? 'selected' : ''}
+                                        key={tag}>
+                                        <div>
+                                            {i > 0 && <span className="separator">&nbsp;|&nbsp;</span>}
+                                            <a className="hover" href={"/" + tag + ".html"}>{tag}</a >
+                                        </div>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </li>
                     <li><a href="/search.html">Search</a></li>
                 </ul>
 

@@ -11,17 +11,23 @@ export default function Styleguide() {
 
     var items = [
         ...blogs.map(b => ({
-            name: (b.title || b.name).toLowerCase(),
+            name: (b.title || b.name).toLowerCase() + ' ' + (b.author || "").toLowerCase(),
+            title: b.title || b.name,
+            description: b.description + `<div>${b.author}</div><div>${b.date}</div>`,
             url: b.url
         })),
 
         ...authors.map(b => ({
             name: (b.title || b.name).toLowerCase(),
+            title: b.title || b.name,
+            description: b.description,
             url: b.url
         })),
 
         ...orgs.map(b => ({
             name: (b.title || b.name).toLowerCase(),
+            title: b.title || b.name,
+            description: b.description,
             url: b.url
         }))
     ];
@@ -43,7 +49,7 @@ function search() {
         searchResults.innerHTML = '';
         results.forEach(result => {
             let element = document.createElement('div');
-            let content = \`<a href='\${result.url}'>\${result.name}</a>\`;
+            let content = \`<div class='search-result'><a class='accented hover' href='\${result.url}'>\${result.title}<div>\${result.description}</div></a></div>\`;
             element.innerHTML = content;
             searchResults.appendChild(element);
         });

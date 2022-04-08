@@ -13,11 +13,11 @@ export default function Blog({ organisation, author, blog }) {
                 <div className="blog--title-bar">
                     <div className="blog--title-bar--author-pill"><img src={author.image} alt="something" /></div>
                     <div className="blog--title-bar--organisation">
-                        <a href={`/${organisation.id}`}>{organisation.name}</a>
+                        <a className="accented hover" href={`/${organisation.id}`}>{organisation.name}</a>
                     </div>
                     <span className="sep">|</span>
                     <div className="blog--title-bar--author">
-                        <a href={`/${organisation.id}/${author.id}`}>{author.name}</a>
+                        <a className="accented hover" href={`/${organisation.id}/${author.id}`}>{author.name}</a>
                     </div>
                     <span className="sep">|</span>
                     <div className="blog--title-bar--read-time">

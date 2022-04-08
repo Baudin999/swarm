@@ -10,7 +10,7 @@ export default function Organisation({ organisation }) {
                     <h2>Authors</h2>
                     <ul>
                         {organisation.authors.map(author => {
-                            return <li key={author.id}><a href={`/${organisation.id}/${author.id}/`}>{author.name}</a></li>;
+                            return <li key={author.id}><a className="hover" href={`/${organisation.id}/${author.id}/`}>{author.name}</a></li>;
                         })}
                     </ul>
                 </div>
@@ -24,7 +24,7 @@ export default function Organisation({ organisation }) {
                     <h2>{organisation.name}</h2>
                     <ul>
                         {organisation.authors.map(author => {
-                            return <li key={author.id}><a href={`/${organisation.id}/${author.id}/`}>{author.name}</a></li>;
+                            return <li key={author.id}><a className="hover" href={`/${organisation.id}/${author.id}/`}>{author.name}</a></li>;
                         })}
                     </ul>
                 </div>

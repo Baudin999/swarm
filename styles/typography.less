@@ -1,7 +1,10 @@
+@import "./colors.less";
+
 h1 {
 	font-size: 44px;
 	line-height: 48px;
 	margin: 0 0 30px;
+	color: @color-accent;
 }
 
 h2 {
@@ -29,5 +32,17 @@ p {
 }
 
 a {
-	color: hotpink;
+	text-decoration: none;
+	color: inherit;
+}
+
+a.accented {
+	color: @color-accent;
+}
+
+a.hover {
+	&:hover {
+		text-decoration: underline;
+		color: @color-accent;
+	}
 }
