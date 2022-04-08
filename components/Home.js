@@ -42,7 +42,7 @@ export default function Home({ orgs }) {
                                     </li>
                                 ))}
                             </ul>
-                            <a href="/all-blogs.html">Read all publications</a>
+                            <a href={url("/all-blogs.html")}>Read all publications</a>
                         </div>
                     </div>
                 </div>
