@@ -1,10 +1,9 @@
 import React from 'react';
 import Url from "./Url";
 
-let defaultImageUrl = Url('/blog.jpg');
 
 export default ({ blog }) => {
-
+    let defaultImageUrl = Url('/blog.jpg');
     let style = { background: `url('${blog.image || defaultImageUrl}')`, backgroundSize: 'cover', backgroundPosition: 'center' };
 
     return (
