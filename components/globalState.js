@@ -1,3 +1,4 @@
+import Blog from "./models/Blog";
 
 
 let privateState = {};
@@ -18,7 +19,10 @@ export default stateContainer;
 
 export function getBlogByTag(tag) {
     let orderedBlogs = stateContainer.getState('all_blogs');
-    let result = orderedBlogs.filter(blog => blog.tags.includes(tag.toLowerCase()));
+    let result = orderedBlogs
+        .filter(blog => blog.tags.includes(tag.toLowerCase()))
+        .map(blog => new Blog(blog));
+
     return result;
 }
 
