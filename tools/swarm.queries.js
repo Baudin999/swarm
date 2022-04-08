@@ -64,9 +64,7 @@ export function queryAuthorData(organisationDir, dirent, orgId, orgName) {
         html = md.render(config.body);
     }
     if (info.image) {
-        console.log(authorUrl);
-        info.image = url(info.image, authorUrl);//info.image.replace('./', `/${orgId}/${authorId}/`);
-        console.log(info.image);
+        info.image = url(info.image, authorUrl);
     }
 
     return {
@@ -82,7 +80,8 @@ export function queryAuthorData(organisationDir, dirent, orgId, orgName) {
     };
 }
 
-export function queryBlogData(authorDir, author, blogName, url) {
+export function queryBlogData(authorDir, author, blogName, blogUrl) {
+
     var blogId = _.kebabCase(blogName);
     var blogDirPath = join(authorDir, blogName);
     var markdownText = fs.readFileSync(join(blogDirPath, "index.md"), "utf8");
@@ -98,6 +97,10 @@ export function queryBlogData(authorDir, author, blogName, url) {
     else {
         config.attributes.date_real = moment(config.attributes.date, "DD-MM-YYYY").toDate();
     }
+    if (config.attributes.image) {
+        config.attributes.image = url(config.attributes.image, blogUrl);
+    }
+
     config.attributes.date = config.attributes.date_real.toDateString('nl-NL');
     return {
         id: blogId,
@@ -106,7 +109,7 @@ export function queryBlogData(authorDir, author, blogName, url) {
         SEO: config.attributes,
         author_id: author.id,
         author_role: author.role,
-        url,
+        url: blogUrl,
         html
     };
 }

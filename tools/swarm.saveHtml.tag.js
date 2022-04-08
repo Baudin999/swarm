@@ -7,17 +7,19 @@ import { distDir } from "./swarm.settings";
 import path from "path";
 import fs from "fs";
 import prettyHtml from "html";
+import Url from "../components/Url";
 
 export default function saveHtmlTag(tag) {
     // generate the home page, index.html file
-    const folderPath =  `/${tag.toLowerCase()}`;
+    const folderPath = `./${tag.toLowerCase()}`;
     const pagePath = `${folderPath}/index.html`;
 
-    if(!fs.existsSync(path.join(distDir, folderPath))) {
+    if (!fs.existsSync(path.join(distDir, folderPath))) {
         fs.mkdirSync(path.join(distDir, folderPath));
     }
 
-    state.setState('currentUrl', pagePath);
+    const pageUrl = Url(pagePath);
+    state.setState('currentUrl', pageUrl);
 
     var html = ReactDOMServer.renderToString((
         <Page SEO={{}} baseUrl={null}>
