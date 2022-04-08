@@ -10,7 +10,7 @@ import prettyHtml from "html";
 
 export default function saveHtmlTag(tag) {
     // generate the home page, index.html file
-    state.setState('currentUrl', '/' + tag);
+    state.setState('currentUrl', '/' + tag + '.html');
     var html = ReactDOMServer.renderToString((
         <Page SEO={{}} baseUrl={null}>
             <Tag tag={tag} />

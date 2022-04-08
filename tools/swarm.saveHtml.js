@@ -15,8 +15,9 @@ import renderLogin from "./swarm.render.login";
 import renderStyleGuide from "./swarm.render.style-guide";
 import renderSearch from "./swarm.render.search";
 import renderAllBlogs from "./swarm.render.all-blogs";
+import saveHtmlTag from "./swarm.saveHtml.tag";
 import state from '../components/globalState';
-
+import { getAllTags } from "./swarm.render.global-state";
 
 function saveHtml(distDir, baseUrl = '/', organisations, contentDirectories) {
     // SAVE HTML FILES
@@ -122,6 +123,13 @@ function saveHtml(distDir, baseUrl = '/', organisations, contentDirectories) {
     // RENDER ALL BLOGS
     state.setState('currentUrl', '/all-blogs.html');
     renderAllBlogs(distDir, baseUrl);
+
+    let tags = getAllTags();
+    tags.forEach(tag => {
+        state.setState('currentUrl', '/');
+        saveHtmlTag(tag);
+    });
+    state.setState('currentUrl', '/');
 }
 
 export default saveHtml;

@@ -5,7 +5,7 @@ import { queryOrganisationData, queryAuthorData, queryBlogData } from "./swarm.q
 import { getAllTags, setGlobalState } from "./swarm.render.global-state";
 import saveHtml from './swarm.saveHtml';
 import { rootDir, distDir, distPublicDir, distPreviewDir, contentDir, getSettings } from './swarm.settings';
-import saveHtmlTag from "./swarm.saveHtml.tag";
+
 
 
 function run() {
@@ -105,10 +105,7 @@ function run() {
 
     // SET GLOBAL DATA
     setGlobalState(organisations);
-    let tags = getAllTags();
-    tags.forEach(tag => {
-        saveHtmlTag(tag);
-    });
+
     saveHtml(distDir, null, organisations, contentDirectories);
 }
 export default run;
