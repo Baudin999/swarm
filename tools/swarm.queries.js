@@ -77,7 +77,7 @@ export function queryAuthorData(organisationDir, dirent, orgId, orgName) {
     };
 }
 
-export function queryBlogData(authorDir, blogName, url) {
+export function queryBlogData(authorDir, author, blogName, url) {
     var blogId = _.kebabCase(blogName);
     var blogDirPath = join(authorDir, blogName);
     var markdownText = fs.readFileSync(join(blogDirPath, "index.md"), "utf8");
@@ -98,6 +98,8 @@ export function queryBlogData(authorDir, blogName, url) {
         path: join(authorDir, blogName),
         ...config.attributes,
         SEO: config.attributes,
+        author_id: author.id,
+        author_role: author.role,
         url,
         html
     };

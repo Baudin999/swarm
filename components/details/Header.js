@@ -16,9 +16,6 @@ export default function Header() {
                             <img src="/logo-essent.png" />
                         </a>
                     </li>
-                    {/* <li className={currentUrl === "" || currentUrl === '/' ? 'selected' : ''} >
-                        <a href="/">Home</a>
-                    </li> */}
                     {tags.map(tag => {
                         return (
                             <li className={currentUrl.startsWith(tag) ? 'selected' : ''}

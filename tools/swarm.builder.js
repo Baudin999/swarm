@@ -11,12 +11,12 @@ import saveHtmlTag from "./swarm.saveHtml.tag";
 function run() {
 
     // QUERIES
-    const mapAuthorBlogs = (authorDir, orgId, authorId) => {
+    const mapAuthorBlogs = (authorDir, author, orgId) => {
         return fs.readdirSync(authorDir, { withFileTypes: true })
             .filter(dirent => dirent.isDirectory())
             .map(dirent => {
-                let url = `/${orgId}/${authorId}/${dirent.name}/`;
-                return queryBlogData(authorDir, dirent.name, url);
+                let url = `/${orgId}/${author.id}/${dirent.name}/`;
+                return queryBlogData(authorDir, author, dirent.name, url);
             });
     };
 
@@ -25,7 +25,7 @@ function run() {
             .filter(dirent => dirent.isDirectory())
             .map(dirent => {
                 var data = queryAuthorData(organisationDir, dirent, orgId);
-                var blogs = mapAuthorBlogs(data.path, orgId, data.id);
+                var blogs = mapAuthorBlogs(data.path, data, orgId);
                 return { ...data, blogs };
             });
     };
