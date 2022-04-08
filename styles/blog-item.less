@@ -1,0 +1,28 @@
+.blog-item--container {
+    display: flex;
+    flex-wrap: wrap;
+
+    .blog-item {
+        // background: url('/blog.jpg');
+        background-size: cover;
+        height: 290px;
+        width: 380px;
+        display: block;
+        position: relative;
+        margin-bottom: 1rem;
+        margin-right: 1rem;
+
+        &--footer {
+            position: absolute;
+            bottom: 0rem;
+            left: 0rem;
+            right: 0rem;
+            background: linear-gradient(180deg, rgba(2, 0, 36, 0) 0%, rgba(0, 0, 0, 1) 100%);
+            padding: 2rem;
+
+            * {
+                background: unset;
+            }
+        }
+    }
+}

@@ -21,9 +21,7 @@ export default function Header() {
                         <ul className="tags">
                             {tags.map((tag, i) => {
                                 let tagUrl = '/' + tag.toLowerCase() + '.html';
-                                console.log(currentUrl, tagUrl);
                                 return (
-
                                     <li className={currentUrl.startsWith(tagUrl) ? 'selected' : ''}
                                         key={tag}>
                                         <div>
