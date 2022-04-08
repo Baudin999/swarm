@@ -14,7 +14,7 @@
         margin-right: auto;
 
 
-        .home--top-panel {
+        &--top-panel {
             display: flex;
             flex-direction: row;
             height: 472px;
@@ -73,6 +73,7 @@
                         margin: 0;
                         padding: 0;
                         padding-left: 2rem;
+                        margin-bottom: 1rem;
 
                         li {
                             line-height: 1rem;
@@ -96,6 +97,70 @@
                                 width: 1em;
                                 margin-left: -1em;
                             }
+                        }
+                    }
+                }
+            }
+        }
+
+        &--authors {
+            margin-top: 2rem;
+
+            h1 {
+                width: 100%;
+                text-align: center;
+                color: @color-accent;
+            }
+
+            &--container {
+
+                display: flex;
+                flex-direction: row;
+                justify-content: space-evenly;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+
+                &--author {
+                    text-decoration: none;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    transition: all 0.3s ease-in-out;
+
+
+
+                    &:hover {
+                        transform: scale(1.1);
+                        cursor: pointer;
+                    }
+
+
+                    &--image {
+                        max-height: 300px;
+                        max-width: 300px;
+
+                        img {
+                            border-radius: 50%;
+                        }
+                    }
+
+                    &--name {
+                        font-size: 1.1rem;
+                        font-weight: bold;
+                        margin-top: 1rem;
+                    }
+
+                    &--role {
+                        color: gray;
+                    }
+
+                    &--contributions {
+                        color: rgb(59, 131, 246);
+
+                        a {
+                            color: inherit;
                         }
                     }
                 }

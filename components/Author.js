@@ -25,9 +25,10 @@ const AuthorBlogs = function ({ blogs }) {
 const AuthorHeading = function ({ author }) {
     return (
         <>
-            <h2>{author.name}</h2>
-            {author.description && <div className="author-page--content--description">{author.description}</div>}
             {author.html && <div dangerouslySetInnerHTML={{ __html: author.html }} />}
+            {!author.html && <h2>{author.name}</h2>}
+            {!author.html && author.description && <div className="author-page--content--description">{author.description}</div>}
+            {!author.html && author.image && <img src={author.image} />}
         </>
     );
 };

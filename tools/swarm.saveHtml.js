@@ -14,6 +14,7 @@ import prettyHtml from "html";
 import renderLogin from "./swarm.render.login";
 import renderStyleGuide from "./swarm.render.style-guide";
 import renderSearch from "./swarm.render.search";
+import renderAllBlogs from "./swarm.render.all-blogs";
 import state from '../components/globalState';
 
 
@@ -117,6 +118,10 @@ function saveHtml(distDir, baseUrl = '/', organisations, contentDirectories) {
     // RENDER SEARCH
     state.setState('currentUrl', '/search');
     renderSearch(distDir, baseUrl);
+
+    // RENDER ALL BLOGS
+    state.setState('currentUrl', '/all-blogs.html');
+    renderAllBlogs(distDir, baseUrl);
 }
 
 export default saveHtml;

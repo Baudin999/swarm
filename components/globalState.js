@@ -21,3 +21,7 @@ export function getBlogByTag(tag) {
     let result = orderedBlogs.filter(blog => blog.tags.includes(tag.toLowerCase()));
     return result;
 }
+
+export function getAllBlogs() {
+    return stateContainer.getState('all_blogs');
+}

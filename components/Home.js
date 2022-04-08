@@ -2,6 +2,7 @@
 
 import React from "react";
 import stateContainer from "./globalState";
+import HomeAuthors from "./details/HomeAuthors";
 
 export default function Home({ orgs }) {
     let allBlogs = stateContainer.getState('all_blogs');
@@ -32,9 +33,12 @@ export default function Home({ orgs }) {
                                     </li>
                                 ))}
                             </ul>
+                            <a href="/all-blogs.html">Read all publications</a>
                         </div>
                     </div>
                 </div>
+
+                <HomeAuthors />
             </div>
         </div>
     );
