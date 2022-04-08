@@ -24,13 +24,12 @@ function run() {
                     cmd.run(`cd ${distDir} && git commit -m "pushish"`, () => {
                         cmd.run(`cd ${distDir} && git push -f origin master`, () => {
                             console.log("Successfully pushed to repository.");
-                            // fsExtra.remove(join(distDir, '.git'));
+                            fsExtra.remove(join(distDir, '.git'));
                         });
                     });
                 });
             });
         });
-
     });
 }
 
