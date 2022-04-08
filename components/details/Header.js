@@ -3,7 +3,6 @@ import stateContainer from "../globalState";
 
 
 export default function Header() {
-    var organisations = stateContainer.getState('orgs') || [];
     var currentUrl = stateContainer.getState('currentUrl').toLowerCase();
     var tags = stateContainer.getState('tags') || [];
 
@@ -20,13 +19,13 @@ export default function Header() {
                     <li>
                         <ul className="tags">
                             {tags.map((tag, i) => {
-                                let tagUrl = '/' + tag.toLowerCase() + '.html';
+                                let tagUrl = '/' + tag.toLowerCase();
                                 return (
                                     <li className={currentUrl.startsWith(tagUrl) ? 'selected' : ''}
                                         key={tag}>
                                         <div>
                                             {i > 0 && <span className="separator">&nbsp;|&nbsp;</span>}
-                                            <a className="hover" href={"/" + tag + ".html"}>{tag}</a >
+                                            <a className="hover" href={"/" + tag.toLowerCase() }>{tag}</a >
                                         </div>
                                     </li>
                                 );

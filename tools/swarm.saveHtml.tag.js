@@ -10,12 +10,20 @@ import prettyHtml from "html";
 
 export default function saveHtmlTag(tag) {
     // generate the home page, index.html file
-    state.setState('currentUrl', '/' + tag + '.html');
+    const folderPath =  `/${tag.toLowerCase()}`;
+    const pagePath = `${folderPath}/index.html`;
+
+    if(!fs.existsSync(path.join(distDir, folderPath))) {
+        fs.mkdirSync(path.join(distDir, folderPath));
+    }
+
+    state.setState('currentUrl', pagePath);
+
     var html = ReactDOMServer.renderToString((
         <Page SEO={{}} baseUrl={null}>
             <Tag tag={tag} />
         </Page>)
     );
-    var htmlPath = path.join(distDir, tag + ".html");
+    var htmlPath = path.join(distDir, `${pagePath}`);
     fs.writeFileSync(htmlPath, prettyHtml.prettyPrint(html, { indent_size: 4 }));
 }
