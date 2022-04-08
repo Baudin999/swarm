@@ -1,6 +1,7 @@
 import React from "react";
 import Page from "./Page";
 import globalState from './globalState.js';
+import url from "./Url";
 
 export default function Styleguide() {
     // get the content from the global

@@ -3,9 +3,12 @@ import cmd from 'node-cmd';
 import fsExtra from 'fs-extra';
 import { join } from 'path';
 import { configName, rootDir, distDir } from './swarm.settings.js';
-
+import run_builder from './swarm.builder';
 
 function run() {
+    global.isProduction = true;
+
+    run_builder();
 
     var configJson = fs.readFileSync(join(rootDir, configName), 'utf8');
     var config = JSON.parse(configJson);

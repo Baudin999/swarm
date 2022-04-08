@@ -29,7 +29,7 @@ export default function Home({ orgs }) {
                             <ul className="home--top-panel--right--footer--posts">
                                 {topFour.map(blog => (
                                     <li key={blog.id}>
-                                        <a href={blog.link}>{blog.author_name} - {blog.title}</a>
+                                        <a href={blog.url}>{blog.author_name} - {blog.title}</a>
                                     </li>
                                 ))}
                             </ul>

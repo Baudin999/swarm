@@ -1,3 +1,3 @@
-import run from './swarm.push';
+import run from './swarm.content.push';
 
 run();

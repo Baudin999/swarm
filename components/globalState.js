@@ -1,7 +1,7 @@
 import Blog from "./models/Blog";
 
 
-let privateState = {};
+let privateState = { currentUrl: '/', tags: [] };
 
 let stateContainer = {
     setState: function (key, value) {

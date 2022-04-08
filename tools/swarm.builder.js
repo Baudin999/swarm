@@ -5,7 +5,7 @@ import { queryOrganisationData, queryAuthorData, queryBlogData } from "./swarm.q
 import { getAllTags, setGlobalState } from "./swarm.render.global-state";
 import saveHtml from './swarm.saveHtml';
 import { rootDir, distDir, distPublicDir, distPreviewDir, contentDir, getSettings } from './swarm.settings';
-
+import url from './../components/Url';
 
 
 function run() {
@@ -15,8 +15,8 @@ function run() {
         return fs.readdirSync(authorDir, { withFileTypes: true })
             .filter(dirent => dirent.isDirectory())
             .map(dirent => {
-                let url = `/${orgId}/${author.id}/${dirent.name}/`;
-                return queryBlogData(authorDir, author, dirent.name, url);
+                let blogUrl = url(`/${orgId}/${author.id}/${dirent.name}/`);
+                return queryBlogData(authorDir, author, dirent.name, blogUrl);
             });
     };
 

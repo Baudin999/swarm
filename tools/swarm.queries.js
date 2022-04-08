@@ -4,6 +4,7 @@ import MarkdownIt from "markdown-it";
 import fm from "front-matter";
 import moment from "moment";
 import _ from 'lodash';
+import url from './../components/Url';
 
 export function queryOrganisationData(dirent, contentRoot) {
     var orgId = _.kebabCase(dirent.name.toLowerCase());
@@ -30,7 +31,7 @@ export function queryOrganisationData(dirent, contentRoot) {
         id: orgId,
         path: orgDirPath,
         name: dirent.name,
-        url: `/${orgId}`,
+        url: url(`/${orgId}`),
         ...info,
         SEO: info
     };
@@ -46,6 +47,8 @@ export function queryAuthorData(organisationDir, dirent, orgId, orgName) {
     var authorDirPath = join(organisationDir, dirent.name);
     var authorInfoPath = join(authorDirPath, "info.json");
     var authorId = _.kebabCase(dirent.name.toLowerCase());
+    let authorUrl = url(`/${orgId}/${authorId}/`);
+
     var info = {};
     if (fs.existsSync(authorInfoPath)) {
         var infoText = fs.readFileSync(authorInfoPath, "utf8");
@@ -61,7 +64,9 @@ export function queryAuthorData(organisationDir, dirent, orgId, orgName) {
         html = md.render(config.body);
     }
     if (info.image) {
-        info.image = info.image.replace('./', `/${orgId}/${authorId}/`);
+        console.log(authorUrl);
+        info.image = url(info.image, authorUrl);//info.image.replace('./', `/${orgId}/${authorId}/`);
+        console.log(info.image);
     }
 
     return {
@@ -72,7 +77,7 @@ export function queryAuthorData(organisationDir, dirent, orgId, orgName) {
         ...info,
         SEO: info,
         path: authorDirPath,
-        url: `/${orgId}/${authorId}/`,
+        url: authorUrl,
         html
     };
 }

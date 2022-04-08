@@ -13,6 +13,7 @@
     "server": "babel-node tools/server.start.js",
     "content-import": "babel-node tools/swarm.content.pull.start.js",
     "content-build": "babel-node tools/swarm.builder.start.js",
+    "content-push": "babel-node tools/swarm.content.push.start.js",
     "import": "npm run content-import > npm run content-build",
     "build-styles": "lessc ./styles/root.less ./dist/styles.css",
     "build": "npm run build-styles && npm run content-build",

@@ -33,14 +33,6 @@ const AuthorHeading = function ({ author }) {
     );
 };
 
-const AuthorPill = function ({ author, organisation }) {
-    return (
-        <div>
-            <div>{author.name}</div>
-            <div>{organisation.name}</div>
-        </div>
-    );
-};
 
 export default function Author({ organisation, author }) {
     return (

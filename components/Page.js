@@ -1,3 +1,4 @@
+import url from "./../components/Url";
 import React from "react";
 import Layout from './Layout';
 
@@ -17,8 +18,8 @@ export default function Page({ SEO, children, baseUrl }) {
                 {SEO.title && <meta name="title" content={SEO.title} />}
                 {SEO.description && <meta name="description" content={SEO.description} />}
 
-                <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css' />
-                <link rel="stylesheet" type="text/css" href="/styles.css" />
+                <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css' />
+                <link rel="stylesheet" type="text/css" href={url("/styles.css")} />
 
                 <script crossOrigin="true" src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
                 <script crossOrigin="true" src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
