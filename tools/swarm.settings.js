@@ -17,6 +17,7 @@ export const rootDir = process.cwd();
 export const contentDir = path.join(rootDir, 'content');
 export const distDir = path.join(rootDir, 'dist');
 export const distPublicDir = path.join(rootDir, 'dist', 'public');
+export const distPreviewDir = path.join(rootDir, 'dist', 'preview');
 
 
 export const getSettings = () => {

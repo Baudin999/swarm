@@ -2,9 +2,10 @@ import fs from "fs";
 import { join } from 'path';
 import _ from 'lodash';
 import { queryOrganisationData, queryAuthorData, queryBlogData } from "./swarm.queries";
-import { setGlobalState } from "./swarm.render.global-state";
+import { getAllTags, setGlobalState } from "./swarm.render.global-state";
 import saveHtml from './swarm.saveHtml';
-import { rootDir, distDir, distPublicDir, contentDir, getSettings } from './swarm.settings';
+import { rootDir, distDir, distPublicDir, distPreviewDir, contentDir, getSettings } from './swarm.settings';
+import saveHtmlTag from "./swarm.saveHtml.tag";
 
 
 function run() {
@@ -29,7 +30,7 @@ function run() {
             });
     };
 
-    const getContentDirectories = (contentRoot) => {
+    const parseContentDirectories = (contentRoot) => {
         // everything is structured in the content directory as
         // content/<github user>/<github repo>/organisation/author/blog
         // we will need to itterate the github users and the github repos
@@ -99,11 +100,15 @@ function run() {
 
 
     // GET ALL THE DATA
-    var contentDirectories = getContentDirectories(contentDir);
+    var contentDirectories = parseContentDirectories(contentDir);
     var organisations = getOrganisations(contentDirectories);
 
     // SET GLOBAL DATA
     setGlobalState(organisations);
+    let tags = getAllTags();
+    tags.forEach(tag => {
+        saveHtmlTag(tag);
+    });
     saveHtml(distDir, null, organisations, contentDirectories);
 }
 export default run;

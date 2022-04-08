@@ -26,13 +26,13 @@ export function queryOrganisationData(dirent, contentRoot) {
     }
 
 
-    var organisaationResult = { 
-        id: orgId, 
-        path: orgDirPath, 
-        name: dirent.name, 
+    var organisaationResult = {
+        id: orgId,
+        path: orgDirPath,
+        name: dirent.name,
         url: `/${orgId}`,
-        ...info, 
-        SEO: info 
+        ...info,
+        SEO: info
     };
     if (html) {
         organisaationResult.html = html;
@@ -85,6 +85,7 @@ export function queryBlogData(authorDir, blogName, url) {
     var md = new MarkdownIt();
     var html = md.render(config.body);
     config.attributes.title = config.attributes.title || blogName;
+    config.attributes.tags = (config.attributes.tags || []).map(tag => tag.toLowerCase());
     if (!config.attributes.date) {
         config.attributes.date_real = fs.statSync(blogDirPath).ctime;
     }
