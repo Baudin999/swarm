@@ -17,7 +17,7 @@ export default function Header() {
                         </a>
                     </li>
 
-                    <li>
+                    <li className="header-nav--tags">
                         <ul className="tags">
                             {tags.map((tag, i) => {
                                 let tagUrl = url('/' + tag.toLowerCase());
@@ -33,7 +33,7 @@ export default function Header() {
                             })}
                         </ul>
                     </li>
-                    <li><a className="hover" href={url("/search.html")}>Search</a></li>
+                    <li className="header-nav--search"><a className="hover" href={url("/search.html")}>Search</a></li>
                 </ul>
 
             </div>

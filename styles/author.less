@@ -57,3 +57,25 @@
         }
     }
 }
+
+@media (min-width:300px) {
+    .author-container {
+        .author-page {
+            max-width: calc(100% - 2rem);
+            flex-direction: column;
+
+            &--content {
+                flex: 100%;
+                padding-right: 0;
+            }
+        }
+    }
+}
+
+@media (min-width:1024px) {
+    .author-container {
+        .author-page {
+            max-width: 820px;
+        }
+    }
+}

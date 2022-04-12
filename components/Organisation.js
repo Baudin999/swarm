@@ -4,8 +4,8 @@ import url from "./Url";
 export default function Organisation({ organisation }) {
     if (organisation.html) {
         return (
-            <div className="container">
-                <div className="organisation">
+            <div className="org-container">
+                <div className="org">
                     {organisation.html && <div dangerouslySetInnerHTML={{ __html: organisation.html }} />}
 
                     <h2>Authors</h2>
@@ -21,7 +21,7 @@ export default function Organisation({ organisation }) {
     else {
         return (
             <div className="org-container">
-                <div className="organisation">
+                <div className="org">
                     <h2>{organisation.name}</h2>
                     <ul>
                         {organisation.authors.map(author => {
@@ -33,3 +33,4 @@ export default function Organisation({ organisation }) {
         );
     }
 }
+

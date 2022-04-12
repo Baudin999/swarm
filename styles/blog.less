@@ -52,3 +52,35 @@
         }
     }
 }
+
+@media (min-width:300px) {
+    .blog-container {
+        .blog {
+            max-width: calc(100% - 2rem);
+
+            &--title {
+                font-size: 2rem;
+            }
+
+            &--title-bar {
+                font-size: 0.6rem;
+            }
+        }
+    }
+}
+
+@media (min-width:1024px) {
+    .blog-container {
+        .blog {
+            max-width: 820px;
+
+            &--title {
+                font-size: 3rem;
+            }
+
+            &--title-bar {
+                font-size: 1rem;
+            }
+        }
+    }
+}
