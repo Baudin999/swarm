@@ -6,7 +6,7 @@ import moment from "moment";
 import _ from 'lodash';
 import url from './../components/Url';
 
-const md = new MarkdownIt().use(require('markdown-it-highlightjs'), {});
+const md = new MarkdownIt().use(require('markdown-it-highlightjs'), {}).use(require('markdown-it-katex'));
 
 export function queryOrganisationData(dirent, contentRoot) {
     var orgId = _.kebabCase(dirent.name.toLowerCase());

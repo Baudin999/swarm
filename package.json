@@ -55,6 +55,7 @@
     "lodash": "^4.17.21",
     "markdown-it": "^12.3.2",
     "markdown-it-highlightjs": "^4.0.1",
+    "markdown-it-katex": "^2.0.3",
     "moment": "^2.29.1",
     "node-cmd": "^5.0.0",
     "nodemon": "^2.0.15",

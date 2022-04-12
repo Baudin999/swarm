@@ -27,6 +27,7 @@ export default function Page({ SEO, children, baseUrl }) {
                 <script crossOrigin="true" src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
                 <script crossOrigin="true" src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css" />
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/monokai.min.css" />
             </head>
             <body>
