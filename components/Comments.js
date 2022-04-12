@@ -35,7 +35,9 @@ const BlogComments = () => {
             .then(response => response.json())
 
             // Displaying results to console
-            .then(json => console.log(json));
+            .then(json => {
+                // do nothing
+            });
 
 
     }

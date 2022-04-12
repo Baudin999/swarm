@@ -1,6 +1,6 @@
 import React from "react";
 import stateContainer from "../globalState";
-
+import Image from "./Image";
 
 export default function HomeAuthors() {
     var authors = stateContainer.getState('authors') || [];
@@ -16,7 +16,7 @@ export default function HomeAuthors() {
                         <a href={author.url} key={author.id} className="home--authors--container--author">
                             {/* <div > */}
                             <div className="home--authors--container--author--image">
-                                <img src={author.image} />
+                                <Image src={author.image} />
                             </div>
                             <div className="home--authors--container--author--name">
                                 {author.name}

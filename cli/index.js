@@ -77,7 +77,24 @@ content
     });
 content
     .command('build')
-    .action(() => {
+    .option('-p --production', 'Build for production')
+    .option('-d --dev', 'Build for development')
+    .option('-k --key <key>', 'The key in the swarm.config.json file to use for the build.')
+    .action(options => {
+
+        let { key, production, dev } = options;
+
+        if (production) {
+            global.isProduction = true;
+        }
+        else if (dev) {
+            global.isDev = true;
+        }
+
+        if (key) {
+            global.configKey = key;
+        }
+
         build();
         var stylesPath = path.join(currentDir, 'dist', 'styles.css');
         fsExtra.writeFileSync(stylesPath, styles);

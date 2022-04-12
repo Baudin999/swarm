@@ -1,5 +1,5 @@
 import React from "react";
-
+import Image from './details/Image';
 const AuthorBlogs = function ({ blogs }) {
     return (
         <>
@@ -28,7 +28,7 @@ const AuthorHeading = function ({ author }) {
             {author.html && <div dangerouslySetInnerHTML={{ __html: author.html }} />}
             {!author.html && <h2>{author.name}</h2>}
             {!author.html && author.description && <div className="author-page--content--description">{author.description}</div>}
-            {!author.html && author.image && <img src={author.image} />}
+            {!author.html && author.image && <Image src={author.image} />}
         </>
     );
 };

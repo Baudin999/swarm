@@ -25,6 +25,7 @@ function saveHtml(distDir, baseUrl = '/', organisations, contentDirectories) {
         if (!fs.existsSync(toDir)) {
             fsExtra.mkdirpSync(toDir);
         }
+        html = '<!DOCTYPE html>' + html;
         fs.writeFileSync(join(toDir, "index.html"), prettyHtml.prettyPrint(html, { indent_size: 4 }));
         fsExtra.copySync(fromDir, toDir);
     };
@@ -48,6 +49,7 @@ function saveHtml(distDir, baseUrl = '/', organisations, contentDirectories) {
     };
 
     const saveHomeHtml = (html, distRootPath) => {
+        html = '<!DOCTYPE html>' + html;
         var htmlPath = join(distRootPath, "index.html");
         fs.writeFileSync(htmlPath, prettyHtml.prettyPrint(html, { indent_size: 4 }));
 

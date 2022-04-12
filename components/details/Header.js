@@ -1,6 +1,7 @@
 import React from "react";
 import stateContainer from "../globalState";
 import url from "./../Url";
+import Image from "./Image";
 
 export default function Header() {
     let currentUrl = stateContainer.getState('currentUrl').toString();
@@ -12,7 +13,7 @@ export default function Header() {
                 <ul>
                     <li className="header-nav--logo">
                         <a href={url("/")}>
-                            <img src={url("/logo-essent.png")} />
+                            <Image src={url("/logo-essent.png")} />
                         </a>
                     </li>
 
@@ -32,7 +33,7 @@ export default function Header() {
                             })}
                         </ul>
                     </li>
-                    <li><a href={url("/search.html")}>Search</a></li>
+                    <li><a className="hover" href={url("/search.html")}>Search</a></li>
                 </ul>
 
             </div>
