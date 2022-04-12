@@ -16,7 +16,7 @@ export default function Page({ SEO, children, baseUrl }) {
                 {baseUrl && <base href={baseUrl}></base>}
                 <meta charSet="utf-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-                <meta httpEquiv="Content-Security-Policy" content="script-src 'self' https://unpkg.com"></meta>
+                <meta httpEquiv="Content-Security-Policy" content="script-src 'self' https://unpkg.com https://cdnjs.cloudflare.com"></meta>
                 <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
                 {SEO.title && <meta name="title" content={SEO.title} />}
                 {SEO.description && <meta name="description" content={SEO.description} />}
@@ -26,6 +26,8 @@ export default function Page({ SEO, children, baseUrl }) {
 
                 <script crossOrigin="true" src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
                 <script crossOrigin="true" src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/monokai.min.css" />
             </head>
             <body>
                 <Layout>

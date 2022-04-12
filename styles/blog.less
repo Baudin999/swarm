@@ -1,5 +1,10 @@
 @import "./colors.less";
 
+@color-blue: #3b83f6;
+@color-hljs-bg: #fafafa;
+@color-hljs-keyword: #3b83f6;
+
+
 .blog-container {
     width: 100%;
     height: 100%;
@@ -48,6 +53,22 @@
                 display: inline-block;
 
                 margin-right: 0.5rem;
+            }
+        }
+
+        ul {
+            margin-left: 3rem;
+
+            li {
+                &::before {
+                    content: "\2022";
+                    color: #3b83f6;
+                    font-weight: bold;
+                    font-size: 1rem;
+                    display: inline-block;
+                    width: 1em;
+                    margin-left: -1rem;
+                }
             }
         }
     }

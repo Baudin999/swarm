@@ -6,6 +6,8 @@ import moment from "moment";
 import _ from 'lodash';
 import url from './../components/Url';
 
+const md = new MarkdownIt().use(require('markdown-it-highlightjs'), {});
+
 export function queryOrganisationData(dirent, contentRoot) {
     var orgId = _.kebabCase(dirent.name.toLowerCase());
     var orgDirPath = join(contentRoot, dirent.name);
@@ -20,7 +22,6 @@ export function queryOrganisationData(dirent, contentRoot) {
     var html;
     if (fs.existsSync(markdownPath)) {
         var markdownText = fs.readFileSync(markdownPath, "utf8");
-        var md = new MarkdownIt();
         var config = fm(markdownText);
         info = { ...info, ...config.attributes };
         html = md.render(config.body);
@@ -58,7 +59,6 @@ export function queryAuthorData(organisationDir, dirent, orgId, orgName) {
     var html;
     if (fs.existsSync(markdownPath)) {
         var markdownText = fs.readFileSync(markdownPath, "utf8");
-        var md = new MarkdownIt();
         var config = fm(markdownText);
         info = { ...info, ...config.attributes };
         html = md.render(config.body);
@@ -86,7 +86,6 @@ export function queryBlogData(authorDir, author, blogName, blogUrl) {
     var blogDirPath = join(authorDir, blogName);
     var markdownText = fs.readFileSync(join(blogDirPath, "index.md"), "utf8");
     var config = fm(markdownText);
-    var md = new MarkdownIt();
     var html = md.render(config.body);
     config.attributes.title = config.attributes.title || blogName;
     config.attributes.tags = (config.attributes.tags || []).map(tag => tag.toLowerCase());
