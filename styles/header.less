@@ -11,18 +11,19 @@
     top: 0;
     left: 0;
     right: 0;
-    height: @header-height;
+    height: 150px;
 
-    .header-nav {
+    &-nav {
         max-width: 1535px;
-        min-width: 1024px;
+        min-width: 100%;
         width: 100%;
         margin-left: auto;
         margin-right: auto;
 
+
         // height: 50px;
-        padding-top: 50px;
-        padding-bottom: 50px;
+        // padding-top: calc(@header-height / 3);
+        // padding-bottom: calc(@header-height / 3);
 
         &--logo {
             img {
@@ -76,6 +77,35 @@
 
 
             }
+        }
+    }
+}
+
+@media (min-width:300px) {
+    .header {
+        height: 50px;
+
+        &-nav {
+            padding: 0 1rem;
+        }
+
+        ul {
+            li {
+                .tags {
+                    display: none;
+                }
+            }
+        }
+
+    }
+}
+
+@media (min-width:1024px) {
+    .header {
+        height: 150px;
+
+        &-nav {
+            padding: 0 1rem;
         }
     }
 }

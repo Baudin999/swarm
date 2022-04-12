@@ -7,7 +7,7 @@
     padding-bottom: 5rem;
 
     .home {
-        min-width: 1024px;
+        min-width: 100%;
         max-width: 1535px;
 
         margin-left: auto;
@@ -106,6 +106,7 @@
         &--authors {
             margin-top: 2rem;
 
+
             h1 {
                 width: 100%;
                 text-align: center;
@@ -121,6 +122,7 @@
                 -moz-user-select: none;
                 -ms-user-select: none;
                 user-select: none;
+                margin: 0 1rem;
 
                 &--author {
                     text-decoration: none;
@@ -128,6 +130,8 @@
                     flex-direction: column;
                     align-items: center;
                     transition: all 0.3s ease-in-out;
+                    padding: 0 1rem;
+                    text-align: center;
 
 
 
@@ -164,6 +168,69 @@
                         }
                     }
                 }
+            }
+        }
+    }
+}
+
+
+// @media (min-width: 640px) {
+//     body {
+//         font-size: 1rem;
+//     }
+// }
+
+// @media (min-width:960px) {
+//     body {
+//         font-size: 1.2rem;
+//     }
+// }
+
+@media (min-width:300px) {
+    .home-container {
+        .home {
+            &--top-panel {
+                flex-direction: column;
+                height: auto;
+
+                &--left {
+                    width: 100%;
+                    height: 400px;
+                }
+
+                &--right {
+                    width: 100%;
+                    height: 400px;
+                }
+            }
+
+            &--authors {
+                font-size: 0.6rem;
+            }
+        }
+    }
+}
+
+@media (min-width:1024px) {
+    .home-container {
+        .home {
+            &--top-panel {
+                flex-direction: row;
+                // height: auto;
+
+                // &--left {
+                //     width: 100%;
+                //     height: 400px;
+                // }
+
+                // &--right {
+                //     width: 100%;
+                //     height: 400px;
+                // }
+            }
+
+            &--authors {
+                font-size: 1rem;
             }
         }
     }
