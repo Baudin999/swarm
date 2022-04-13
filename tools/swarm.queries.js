@@ -3,32 +3,34 @@ import { join } from 'path';
 import MarkdownIt from "markdown-it";
 import fm from "front-matter";
 import moment from "moment";
-import _ from 'lodash';
+import { kebabCase } from 'lodash';
 import url from './../components/Url';
 
-const md = new MarkdownIt().use(require('markdown-it-highlightjs'), {}).use(require('markdown-it-katex'));
+const md = new MarkdownIt()
+    .use(require('markdown-it-highlightjs'), {})
+    .use(require('markdown-it-katex'));
 
 export function queryOrganisationData(dirent, contentRoot) {
-    var orgId = _.kebabCase(dirent.name.toLowerCase());
-    var orgDirPath = join(contentRoot, dirent.name);
-    var orgInfoPath = join(orgDirPath, "info.json");
-    var info = {};
+    let orgId = kebabCase(dirent.name.toLowerCase());
+    let orgDirPath = join(contentRoot, dirent.name);
+    let orgInfoPath = join(orgDirPath, "info.json");
+    let info = {};
     if (fs.existsSync(orgInfoPath)) {
-        var infoText = fs.readFileSync(orgInfoPath, "utf8");
+        let infoText = fs.readFileSync(orgInfoPath, "utf8");
         info = JSON.parse(infoText);
     }
 
-    var markdownPath = join(orgDirPath, "index.md");
-    var html;
+    let markdownPath = join(orgDirPath, "index.md");
+    let html;
     if (fs.existsSync(markdownPath)) {
-        var markdownText = fs.readFileSync(markdownPath, "utf8");
-        var config = fm(markdownText);
+        let markdownText = fs.readFileSync(markdownPath, "utf8");
+        let config = fm(markdownText);
         info = { ...info, ...config.attributes };
         html = md.render(config.body);
     }
 
 
-    var organisaationResult = {
+    let organisaationResult = {
         id: orgId,
         path: orgDirPath,
         name: dirent.name,
@@ -45,21 +47,21 @@ export function queryOrganisationData(dirent, contentRoot) {
 
 export function queryAuthorData(organisationDir, dirent, orgId, orgName) {
     orgName = orgName || orgId;
-    var authorDirPath = join(organisationDir, dirent.name);
-    var authorInfoPath = join(authorDirPath, "info.json");
-    var authorId = _.kebabCase(dirent.name.toLowerCase());
+    let authorDirPath = join(organisationDir, dirent.name);
+    let authorInfoPath = join(authorDirPath, "info.json");
+    let authorId = kebabCase(dirent.name.toLowerCase());
     let authorUrl = url(`/${orgId}/${authorId}/`);
 
-    var info = {};
+    let info = {};
     if (fs.existsSync(authorInfoPath)) {
-        var infoText = fs.readFileSync(authorInfoPath, "utf8");
+        let infoText = fs.readFileSync(authorInfoPath, "utf8");
         info = JSON.parse(infoText);
     }
-    var markdownPath = join(authorDirPath, "index.md");
-    var html;
+    let markdownPath = join(authorDirPath, "index.md");
+    let html;
     if (fs.existsSync(markdownPath)) {
-        var markdownText = fs.readFileSync(markdownPath, "utf8");
-        var config = fm(markdownText);
+        let markdownText = fs.readFileSync(markdownPath, "utf8");
+        let config = fm(markdownText);
         info = { ...info, ...config.attributes };
         html = md.render(config.body);
     }
@@ -82,11 +84,11 @@ export function queryAuthorData(organisationDir, dirent, orgId, orgName) {
 
 export function queryBlogData(authorDir, author, blogName, blogUrl) {
 
-    var blogId = _.kebabCase(blogName);
-    var blogDirPath = join(authorDir, blogName);
-    var markdownText = fs.readFileSync(join(blogDirPath, "index.md"), "utf8");
-    var config = fm(markdownText);
-    var html = md.render(config.body);
+    let blogId = kebabCase(blogName);
+    let blogDirPath = join(authorDir, blogName);
+    let markdownText = fs.readFileSync(join(blogDirPath, "index.md"), "utf8");
+    let config = fm(markdownText);
+    let html = md.render(config.body);
     config.attributes.title = config.attributes.title || blogName;
     config.attributes.tags = (config.attributes.tags || []).map(tag => tag.toLowerCase());
     config.attributes.author = config.attributes.author || author.name;
