@@ -21,6 +21,9 @@ export default function Page({ SEO, children, baseUrl }) {
                 {SEO.title && <meta name="title" content={SEO.title} />}
                 {SEO.description && <meta name="description" content={SEO.description} />}
 
+
+                <script src="/app.js" defer />
+
                 <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' as='font' type='text/css' />
                 <link rel="stylesheet" type="text/css" href={url("/styles.css")} />
 
