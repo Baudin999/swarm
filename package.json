@@ -16,7 +16,8 @@
     "content-push": "babel-node tools/swarm.content.push.start.js",
     "import": "npm run content-import > npm run content-build",
     "build-styles": "lessc ./styles/root.less ./dist/styles.css",
-    "build": "npm run build-styles && npm run content-build",
+    "build-js": "rollup -c rollup.frontend.js",
+    "build": "npm run build-styles && npm run build-js && npm run content-build",
     "watch-styles": "nodemon --watch *.less --exec \"npm run build-styles\"",
     "watch-app": "nodemon --watch components --watch tools --exec \"npm run content-build\"",
     "watch-content": "nodemon --watch content --exec \"npm run content-build\"",
@@ -24,7 +25,7 @@
     "dev": "concurrently \"npm run watch-styles\" \"npm run watch-app\" \"npm run browser-sync\"",
     "unlink": "npm uninstall -g swarm",
     "link": "npm install -g",
-    "rollup": "npm run build-styles && rollup -c",
+    "rollup": "npm run build-styles && npm run build-js && rollup -c",
     "dev-init": "npm run rollup && npm uninstall -g swarm && npm i -g && swarm init && swarm content pull && swarm content build"
   },
   "author": "Carlos Kelkboom",
