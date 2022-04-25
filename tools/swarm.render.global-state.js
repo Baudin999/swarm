@@ -47,3 +47,7 @@ export function getAllTags() {
     return state.getState('tags');
 }
 
+
+export function setTiles(tiles) {
+    state.setState('tiles', tiles);
+}

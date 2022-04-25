@@ -13,7 +13,7 @@
 
         margin-left: auto;
         margin-right: auto;
-        overflow-x: hidden;
+        overflow: hidden;
 
 
         &--top-panel {
@@ -62,23 +62,29 @@
                 color: white;
                 position: relative;
 
+
                 &--footer {
                     position: absolute;
                     bottom: 0rem;
                     left: 0rem;
                     right: 0rem;
-                    padding: 2rem;
+                    padding: 4rem;
+
+                    h2 {
+                        text-transform: uppercase;
+                        font-weight: 900;
+                    }
 
                     &--posts {
                         color: inherit;
                         background: unset;
                         margin: 0;
                         padding: 0;
-                        padding-left: 2rem;
                         margin-bottom: 1rem;
 
                         li {
-                            line-height: 1rem;
+                            line-height: 2rem;
+                            vertical-align: center;
 
 
                             a {
@@ -94,25 +100,30 @@
                                 content: "\2022";
                                 color: rgb(59, 131, 246);
                                 font-weight: bold;
-                                font-size: 2rem;
+                                font-size: 0.8rem;
                                 display: inline-block;
-                                width: 1em;
+                                width: 2em;
                                 margin-left: -1em;
                             }
                         }
+                    }
+
+                    a {
+                        text-decoration: underline;
                     }
                 }
             }
         }
 
         &--authors {
-            margin-top: 2rem;
+            margin-top: 3rem;
 
 
             h1 {
                 width: 100%;
                 text-align: center;
                 color: @color-accent;
+                text-transform: uppercase;
             }
 
             &--container {
@@ -188,8 +199,11 @@
 //     }
 // }
 
-@media (min-width:300px) {
+@media (min-width:150px) {
     .home-container {
+        padding: 0 1rem;
+        padding-bottom: 5rem;
+
         .home {
             &--top-panel {
                 flex-direction: column;
@@ -219,6 +233,8 @@
 
 @media (min-width:1024px) {
     .home-container {
+        padding-bottom: 5rem;
+
         .home {
             // width: 100%;
             // max-width: 1535px !important;

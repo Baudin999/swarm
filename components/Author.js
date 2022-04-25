@@ -1,26 +1,7 @@
 import React from "react";
 import Image from './details/Image';
-const AuthorBlogs = function ({ blogs }) {
-    return (
-        <>
-            <h2>Blog posts</h2>
-            <ul>
-                {blogs.map(blog => {
-                    return (
-                        <li className="blog-list-item" key={blog.url}>
-                            <div>
-                                <a href={blog.url}>
-                                    <div className="blog-list-item--title">{blog.title}</div>
-                                    <div className="blog-list-item--date">{blog.date}</div>
-                                </a>
-                            </div>
-                        </li>
-                    );
-                })}
-            </ul>
-        </>
-    );
-};
+import BlogItems from "./BlogItems";
+
 
 const AuthorHeading = function ({ author }) {
     return (
@@ -41,9 +22,11 @@ export default function Author({ organisation, author }) {
                 <div className="author-page--content">
                     <AuthorHeading author={author} />
                 </div>
-                <div className="author-page--recent-blogs">
-                    <AuthorBlogs blogs={author.blogs} />
+                <div className="author-page--blogs">
+                    <h2>Blog posts</h2>
+                    <BlogItems blogs={author.blogs} />
                 </div>
+
             </div>
         </div>
     );

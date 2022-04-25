@@ -29,3 +29,9 @@ export function getBlogByTag(tag) {
 export function getAllBlogs() {
     return stateContainer.getState('all_blogs');
 }
+
+export function getRandomTile() {
+    let tiles = stateContainer.getState('tiles');
+    let randomIndex = Math.floor(Math.random() * tiles.length);
+    return tiles[randomIndex];
+}

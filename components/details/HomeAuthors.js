@@ -8,7 +8,7 @@ export default function HomeAuthors() {
 
     return (
         <div className="home--authors">
-            <h1>Meet our contributers</h1>
+            <h1>Our authors</h1>
 
             <div className="home--authors--container">
                 {topThreeAuthors.map(author => {

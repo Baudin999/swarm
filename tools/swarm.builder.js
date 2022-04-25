@@ -2,7 +2,7 @@ import fs from "fs";
 import { join } from 'path';
 import _ from 'lodash';
 import { queryOrganisationData, queryAuthorData, queryBlogData } from "./swarm.queries";
-import { getAllTags, setGlobalState } from "./swarm.render.global-state";
+import { getAllTags, setGlobalState, setTiles } from "./swarm.render.global-state";
 import saveHtml from './swarm.saveHtml';
 import { rootDir, distDir, distPublicDir, distPreviewDir, contentDir, getSettings } from './swarm.settings';
 import url from './../components/Url';
@@ -10,7 +10,22 @@ import url from './../components/Url';
 
 function run() {
 
+    let tiles = [];
+
     // QUERIES
+
+    const mapTiles = (fullName, dirName, orgId) => {
+        let files = fs.readdirSync(fullName);
+        files.forEach(file => {
+            let result = {
+                url: url(`/${orgId}/tiles/${file}`),
+                name: file.split('.')[0],
+                image: url(`/${orgId}/tiles/${file}`),
+            };
+            tiles.push(result);
+        });
+    };
+
     const mapAuthorBlogs = (authorDir, author, orgId) => {
         return fs.readdirSync(authorDir, { withFileTypes: true })
             .filter(dirent => dirent.isDirectory())
@@ -24,9 +39,14 @@ function run() {
         return fs.readdirSync(organisationDir, { withFileTypes: true })
             .filter(dirent => dirent.isDirectory())
             .map(dirent => {
-                var data = queryAuthorData(organisationDir, dirent, orgId);
-                var blogs = mapAuthorBlogs(data.path, data, orgId);
-                return { ...data, blogs };
+                if (dirent.name !== "tiles") {
+                    var data = queryAuthorData(organisationDir, dirent, orgId);
+                    var blogs = mapAuthorBlogs(data.path, data, orgId);
+                    return { ...data, blogs };
+                }
+                else {
+                    mapTiles(join(organisationDir, dirent.name), dirent.name, orgId);
+                }
             });
     };
 
@@ -72,7 +92,7 @@ function run() {
                         .filter(dirent => dirent.name !== '.git')
                         .map(dirent => {
                             var data = queryOrganisationData(dirent, dir);
-                            var authors = mapOrganisationAuthors(data.path, data.id, data.name);
+                            var authors = mapOrganisationAuthors(data.path, data.id, data.name).filter(m => m !== undefined && m !== null);
                             return { ...data, authors };
                         });
                 })
@@ -105,6 +125,7 @@ function run() {
 
     // SET GLOBAL DATA
     setGlobalState(organisations);
+    setTiles(tiles);
 
     saveHtml(distDir, null, organisations, contentDirectories);
 }

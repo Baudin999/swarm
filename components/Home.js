@@ -1,24 +1,31 @@
 
 
 import React from "react";
-import stateContainer from "./globalState";
+import stateContainer, { getRandomTile } from "./globalState";
 import HomeAuthors from "./details/HomeAuthors";
+import HomeBlock from "./HomeBlock";
 import url from "./Url";
 
 export default function Home({ orgs }) {
     let allBlogs = stateContainer.getState('all_blogs');
     var authors = orgs.map(org => org.authors).flat(1);
 
-    var [first, ...rest] = allBlogs;
-    var topFour = rest.slice(0, 4);
+    let techlab = authors.find(author => author.name == "TechLab");
+    let image = techlab.image;
+    let randomTile = getRandomTile();
 
-    var firstUrl = first.image || ('./home-01.jpeg');
+    let [first, ...rest] = allBlogs;
+    let topFour = rest.slice(0, 4);
+
+    let firstUrl = first.image || ('./home-01.jpeg');
 
     let leftStyles = {
         backgroundImage: `url(${firstUrl})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center'
     };
+
+    let techlabText = "TechLab is a group of enthusiastic Essent IT colleagues that gather every Friday and work on proof of concepts.Interested?Follow them on this site every Friday.";
 
     return (
         <div className="home-container">
@@ -48,6 +55,8 @@ export default function Home({ orgs }) {
                 </div>
 
                 <HomeAuthors />
+
+                <HomeBlock size="small" author={"TechLab"} image={image} text={techlabText} sideImage={randomTile.image} />
             </div>
         </div>
     );
