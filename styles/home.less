@@ -6,6 +6,16 @@
     overflow-y: auto;
     padding-bottom: 5rem;
 
+    h2.accented {
+        text-transform: uppercase;
+        font-weight: 900;
+        background-image: none;
+        background: transparent;
+        text-align: center;
+        color: @block-accent;
+        margin-bottom: 2rem;
+    }
+
     .home {
         // min-width: 100%;
         max-width: 1535px;
@@ -19,7 +29,7 @@
         &--top-panel {
             display: flex;
             flex-direction: row;
-            height: 472px;
+            height: 530px;
 
             &>* {
                 padding: 2rem;
@@ -103,7 +113,7 @@
                                 font-size: 0.8rem;
                                 display: inline-block;
                                 width: 2em;
-                                margin-left: -1em;
+                                margin-left: -21px;
                             }
                         }
                     }
@@ -124,6 +134,7 @@
                 text-align: center;
                 color: @color-accent;
                 text-transform: uppercase;
+                margin: 0;
             }
 
             &--container {
@@ -207,7 +218,7 @@
         .home {
             &--top-panel {
                 flex-direction: column;
-                height: auto;
+                height: 800px;
 
                 &--left {
                     width: 100%;
@@ -225,6 +236,12 @@
 
                 &--container {
                     flex-direction: column;
+
+                    &--author {
+                        &--image {
+                            margin: 3rem 4rem 0 4rem;
+                        }
+                    }
                 }
             }
         }
@@ -236,22 +253,20 @@
         padding-bottom: 5rem;
 
         .home {
-            // width: 100%;
-            // max-width: 1535px !important;
-
             &--top-panel {
                 flex-direction: row;
-                // height: auto;
+                height: 530px;
+                margin-bottom: 7rem;
 
-                // &--left {
-                //     width: 100%;
-                //     height: 400px;
-                // }
+                &--left {
+                    width: 100%;
+                    height: inherit;
+                }
 
-                // &--right {
-                //     width: 100%;
-                //     height: 400px;
-                // }
+                &--right {
+                    width: 100%;
+                    height: inherit;
+                }
             }
 
             &--authors {

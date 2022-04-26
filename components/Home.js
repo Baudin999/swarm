@@ -11,7 +11,10 @@ export default function Home({ orgs }) {
     var authors = orgs.map(org => org.authors).flat(1);
 
     let techlab = authors.find(author => author.name == "TechLab");
-    let image = techlab.image;
+    let image;
+    if (techlab) {
+        image = techlab.image;
+    }
     let randomTile = getRandomTile();
 
     let [first, ...rest] = allBlogs;
@@ -25,7 +28,7 @@ export default function Home({ orgs }) {
         backgroundPosition: 'center'
     };
 
-    let techlabText = "TechLab is a group of enthusiastic Essent IT colleagues that gather every Friday and work on proof of concepts.Interested?Follow them on this site every Friday.";
+    let techlabText = "TechLab is a group of enthusiastic Essent IT colleagues that gather every Friday and work on proof of concepts. Interested? Follow them on this site every Friday.";
 
     return (
         <div className="home-container">
@@ -56,7 +59,40 @@ export default function Home({ orgs }) {
 
                 <HomeAuthors />
 
-                <HomeBlock size="small" author={"TechLab"} image={image} text={techlabText} sideImage={randomTile.image} />
+                {techlab &&
+                    <>
+                        <div style={{ marginTop: "7rem" }} />
+                        <HomeBlock
+                            size="small"
+                            author={"TechLab"}
+                            image={image}
+                            text={techlabText}
+                            sideImage={randomTile.image} />
+                        <div style={{ marginTop: "7rem" }} />
+                    </>
+                }
+                {randomTile &&
+                    <>
+                        <h2 className="accented">Inspiration & Videos</h2>
+                        <HomeBlock
+                            size="large"
+                            author={"TechLab"}
+                            image={randomTile.image}
+                            backgroundSize="contain"
+                            text={techlabText}>
+                            <div style={{ flex: 1, height: "100%" }}>
+                                <iframe
+                                    height="100%"
+                                    width="100%"
+                                    src="https://www.youtube.com/embed/nakYk1aGaq0"
+                                    title="Hackathon behind the scenes"
+                                    frameBorder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen={true}></iframe>
+                            </div>
+                        </HomeBlock>
+                    </>
+                }
             </div>
         </div>
     );

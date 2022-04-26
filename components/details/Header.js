@@ -33,7 +33,8 @@ export default function Header() {
                             })}
                         </ul>
                     </li>
-                    <li className="header-nav--search"><a className="hover" href={url("/search.html")}>Search</a></li>
+                    <li></li>
+                    {/* <li className="header-nav--search"><a className="hover" href={url("/search.html")}>Search</a></li> */}
                 </ul>
 
             </div>
