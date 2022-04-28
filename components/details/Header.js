@@ -13,7 +13,7 @@ export default function Header() {
                 <ul>
                     <li className="header-nav--logo">
                         <a href={url("/")}>
-                            <Image src={url("/logo-essent.png")} />
+                            <Image src={url("/logo.png")} />
                         </a>
                     </li>
 
