@@ -1,13 +1,15 @@
 import url from "./../components/Url";
 import React from "react";
 import Layout from './Layout';
-
+import { getSettings } from "./../tools/swarm.settings";
 
 export default function Page({ SEO, children, baseUrl }) {
+    let settings = getSettings() || {};
 
     if (!SEO) SEO = {};
-    if (!SEO.title) SEO.title = "swarm - blogging engine";
-    if (!SEO.description) SEO.description = "swarm - blogging engine";
+    if (!SEO.title) SEO.title = settings.title || "swarm - blogging engine";
+    if (!SEO.description) SEO.description = settings.description || "swarm - blogging engine";
+
 
     return (
         <html lang="en">

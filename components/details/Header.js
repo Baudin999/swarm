@@ -5,7 +5,8 @@ import Image from "./Image";
 
 export default function Header() {
     let currentUrl = stateContainer.getState('currentUrl').toString();
-    var tags = stateContainer.getState('tags') || [];
+    let tags = stateContainer.getState('tags') || [];
+
 
     return (
         <div className="header">
