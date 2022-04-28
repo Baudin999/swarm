@@ -88,6 +88,7 @@ export function queryBlogData(authorDir, author, blogName, blogUrl) {
     let blogDirPath = join(authorDir, blogName);
     let markdownText = fs.readFileSync(join(blogDirPath, "index.md"), "utf8");
     let config = fm(markdownText);
+
     let html = md.render(config.body);
     config.attributes.title = config.attributes.title || blogName;
     config.attributes.tags = (config.attributes.tags || []).map(tag => tag.toLowerCase());
@@ -100,6 +101,10 @@ export function queryBlogData(authorDir, author, blogName, blogUrl) {
     }
     if (config.attributes.image) {
         config.attributes.image = url(config.attributes.image, blogUrl);
+    }
+
+    if (config.attributes.publish === undefined) {
+        config.attributes.publish = true;
     }
 
     config.attributes.date = config.attributes.date_real.toDateString('nl-NL');

@@ -27,12 +27,13 @@ function run() {
     };
 
     const mapAuthorBlogs = (authorDir, author, orgId) => {
-        return fs.readdirSync(authorDir, { withFileTypes: true })
+        let blogs = fs.readdirSync(authorDir, { withFileTypes: true })
             .filter(dirent => dirent.isDirectory())
             .map(dirent => {
                 let blogUrl = url(`/${orgId}/${author.id}/${dirent.name}/`);
                 return queryBlogData(authorDir, author, dirent.name, blogUrl);
             });
+        return blogs.filter(b => b && b.publish === true);
     };
 
     const mapOrganisationAuthors = (organisationDir, orgId, orgName) => {

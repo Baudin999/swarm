@@ -69,17 +69,19 @@ function saveHtml(distDir, baseUrl = '/', organisations, contentDirectories) {
     // CREATE ALL OF THE STATIC HTML PAGES
     organisations.forEach(org => {
         org.authors.forEach(author => {
-            author.blogs.forEach(blog => {
-
-                // RENDER ALL BLOGS
-                state.setState('currentUrl', blog.url);
-                var string = ReactDOMServer.renderToString((
-                    <Page SEO={blog.SEO} url={blog.url} baseUrl={baseUrl}>
-                        <Blog organisation={org} author={author} blog={blog} />
-                    </Page>)
-                );
-                saveBlogHtml(string, distDir, blog, author, org);
-            });
+            author
+                .blogs
+                .filter(blog => blog.publish === true)
+                .forEach(blog => {
+                    // RENDER ALL BLOGS
+                    state.setState('currentUrl', blog.url);
+                    var string = ReactDOMServer.renderToString((
+                        <Page SEO={blog.SEO} url={blog.url} baseUrl={baseUrl}>
+                            <Blog organisation={org} author={author} blog={blog} />
+                        </Page>)
+                    );
+                    saveBlogHtml(string, distDir, blog, author, org);
+                });
 
             // RENDER ALL AUTHORS
             state.setState('currentUrl', author.url);

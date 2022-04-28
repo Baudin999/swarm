@@ -5,15 +5,20 @@ import stateContainer, { getRandomTile } from "./globalState";
 import HomeAuthors from "./details/HomeAuthors";
 import HomeBlock from "./HomeBlock";
 import url from "./Url";
+import { getSettings } from "../tools/swarm.settings";
 
 export default function Home({ orgs }) {
+    let settings = getSettings();
     let allBlogs = stateContainer.getState('all_blogs');
-    var authors = orgs.map(org => org.authors).flat(1);
+    let authors = orgs.map(org => org.authors).flat(1);
 
-    let techlab = authors.find(author => author.name == "TechLab");
-    let image;
-    if (techlab) {
-        image = techlab.image;
+
+    let highlighted, image;
+    if (settings.highlight) {
+        highlighted = authors.find(author => author.name == settings.highlight);
+        if (highlighted) {
+            image = highlighted.image;
+        }
     }
     let randomTile = getRandomTile();
 
@@ -59,15 +64,18 @@ export default function Home({ orgs }) {
 
                 <HomeAuthors />
 
-                {techlab &&
+                {highlighted &&
                     <>
                         <div style={{ marginTop: "7rem" }} />
                         <HomeBlock
                             size="small"
-                            author={"TechLab"}
                             image={image}
-                            text={techlabText}
-                            sideImage={randomTile.image} />
+                            sideImage={randomTile.image}>
+                                <div>
+                                    <h2>{highlighted.name}</h2>
+                                    <div dangerouslySetInnerHTML={{__html: highlighted.html}}></div>
+                                </div>
+                            </HomeBlock>
                         <div style={{ marginTop: "7rem" }} />
                     </>
                 }
