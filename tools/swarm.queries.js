@@ -34,7 +34,7 @@ export function queryOrganisationData(dirent, contentRoot) {
         id: orgId,
         path: orgDirPath,
         name: dirent.name,
-        url: url(`/${orgId}`),
+        url: url(`/${orgId}/`),
         ...info,
         SEO: info
     };
