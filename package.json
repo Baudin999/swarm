@@ -10,8 +10,8 @@
     "./output/components/**/*"
   ],
   "scripts": {
-    "server": "babel-node tools/server.start.js",
-    "content-import": "babel-node tools/swarm.content.pull.start.js",
+    "serve": "babel-node tools/server.start.js",
+    "content-pull": "babel-node tools/swarm.content.pull.start.js",
     "content-build": "babel-node tools/swarm.builder.start.js",
     "content-push": "babel-node tools/swarm.content.push.start.js",
     "import": "npm run content-import > npm run content-build",
