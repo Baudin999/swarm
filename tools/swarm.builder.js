@@ -1,8 +1,8 @@
 import fs from "fs";
 import { join } from 'path';
 import _ from 'lodash';
-import { queryOrganisationData, queryAuthorData, queryBlogData } from "./swarm.queries";
-import { getAllTags, setGlobalState, setTiles } from "./swarm.render.global-state";
+import { queryOrganisationData, queryAuthorData, queryBlogData, queryAgendaData } from "./swarm.queries";
+import { getAllTags, setGlobalState, setTiles, setAgenda } from "./swarm.render.global-state";
 import saveHtml from './swarm.saveHtml';
 import { rootDir, distDir, distPublicDir, distPreviewDir, contentDir, getSettings } from './swarm.settings';
 import url from './../components/Url';
@@ -11,6 +11,7 @@ import url from './../components/Url';
 function run() {
 
     let tiles = [];
+    let agendaItems = [];
 
     // QUERIES
 
@@ -26,6 +27,18 @@ function run() {
         });
     };
 
+    const mapAgendaItems = (fullName, dirName, orgId) => {
+        let files = fs.readdirSync(fullName);
+        files.forEach(file => {
+            let data = queryAgendaData(join(fullName, file));
+            let result = {
+                url: url(`/${orgId}/agenda/${file}`),
+                ...data
+            };
+            agendaItems.push(result);
+        });
+    }
+
     const mapAuthorBlogs = (authorDir, author, orgId) => {
         let blogs = fs.readdirSync(authorDir, { withFileTypes: true })
             .filter(dirent => dirent.isDirectory())
@@ -40,12 +53,15 @@ function run() {
         return fs.readdirSync(organisationDir, { withFileTypes: true })
             .filter(dirent => dirent.isDirectory())
             .map(dirent => {
-                if (dirent.name !== "tiles") {
+                if (dirent.name !== "tiles" && dirent.name !== "agenda") {
                     var data = queryAuthorData(organisationDir, dirent, orgId);
                     var blogs = mapAuthorBlogs(data.path, data, orgId);
                     return { ...data, blogs };
                 }
-                else {
+                else if (dirent.name === "agenda") {
+                    mapAgendaItems(join(organisationDir, dirent.name), dirent.name, orgId);
+                }
+                else if (dirent.name === "tiles") {
                     mapTiles(join(organisationDir, dirent.name), dirent.name, orgId);
                 }
             });
@@ -127,6 +143,9 @@ function run() {
     // SET GLOBAL DATA
     setGlobalState(organisations);
     setTiles(tiles);
+    setAgenda(agendaItems);
+
+    console.log(agendaItems);
 
     saveHtml(distDir, null, organisations, contentDirectories);
 }

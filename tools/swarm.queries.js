@@ -119,3 +119,25 @@ export function queryBlogData(authorDir, author, blogName, blogUrl) {
         html
     };
 }
+
+
+export const queryAgendaData = (fileName) => {
+    // Query the data of the agenda item
+    let data = {};
+    if (fs.existsSync(fileName)) {
+        let markdownText = fs.readFileSync(fileName, "utf8");
+        let config = fm(markdownText);
+        if (config.attributes.date) {
+            config.attributes.date_real = moment(config.attributes.date, "DD-MM-YYYY").toDate();
+        }
+        data = { ...config.attributes, SEO: config.attributes };
+        let html = md.render(config.body);
+
+        return {
+            ...data,
+            html
+        };
+    }
+
+    return {};
+}

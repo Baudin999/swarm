@@ -51,3 +51,7 @@ export function getAllTags() {
 export function setTiles(tiles) {
     state.setState('tiles', tiles);
 }
+
+export function setAgenda(agendaItems) {
+    state.setState('agendaItems', agendaItems);
+}
