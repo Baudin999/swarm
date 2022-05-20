@@ -4,6 +4,7 @@
 /content
 /output
 /swarm-cli
+/.idea
 
 app.config.json
 swarm.config.json
