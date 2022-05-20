@@ -10,7 +10,6 @@ export default function Page({ SEO, children, baseUrl }) {
     if (!SEO.title) SEO.title = settings.title || "swarm - blogging engine";
     if (!SEO.description) SEO.description = settings.description || "swarm - blogging engine";
 
-
     return (
         <html lang="en">
             <head>
@@ -18,19 +17,13 @@ export default function Page({ SEO, children, baseUrl }) {
                 {baseUrl && <base href={baseUrl}></base>}
                 <meta charSet="utf-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-                <meta httpEquiv="Content-Security-Policy" content="script-src 'self' https://unpkg.com https://cdnjs.cloudflare.com"></meta>
                 <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
                 {SEO.title && <meta name="title" content={SEO.title} />}
                 {SEO.description && <meta name="description" content={SEO.description} />}
 
-                <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' as='font' type='text/css' />
                 <link rel="stylesheet" type="text/css" href={url("/styles.css")} />
+                <script src="/app.js" defer></script>
 
-                <script crossOrigin="true" src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-                <script crossOrigin="true" src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css" />
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/monokai.min.css" />
             </head>
             <body>
                 <Layout>

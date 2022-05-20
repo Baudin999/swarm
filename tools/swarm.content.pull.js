@@ -14,8 +14,8 @@ function getUserNameFromGithubUrl(url) {
     }
     else if (url.startsWith("git@")) {
         // example: git@github.com:Baudin999/swarm-techlab-content.git
-        var parts = url.split('/')[0];
-        var user = url.split(':')[1];
+        var parts = url.split('\/')[0];
+        var user = parts.split(':')[1];
         return user;
     }
 }
