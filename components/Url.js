@@ -44,7 +44,7 @@ export default (path, baseUrl) => {
             baseUrl = settings.baseUrl;
         }
         else {
-            baseUrl = 'http://127.0.0.1:3000/';
+            baseUrl = 'http://localhost:3000/';
         }
     }
 

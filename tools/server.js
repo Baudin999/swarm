@@ -27,43 +27,43 @@ export default function () {
         return slug.replace(/\//g, '_').replace(/\\/g, '_');
     }
 
-    app.get('/comments', (req, res) => {
-        let { slug } = req.query;
-
-        if (slug) {
-            let commentPath = path.join(distDir, slugToPath(slug));
-            if (fs.existsSync(commentPath)) {
-                let commentContent = fs.readFileSync(commentPath, 'utf8');
-                if (commentContent) {
-                    res.send(commentContent);
-                    return;
-                }
-            }
-            else {
-                fs.writeFileSync(commentPath, '[]');
-                res.send([]);
-                return;
-            }
-        }
-        res.end('Errors');
-    });
-
-    app.post('/comments', (req, res) => {
-        console.log(req.body);
-        let { slug } = req.query;
-        let comments = [];
-        if (slug) {
-            let commentPath = path.join(distDir, slugToPath(slug));
-            if (fs.existsSync(commentPath)) {
-                let commentContent = fs.readFileSync(commentPath, 'utf8');
-                comments = JSON.parse(commentContent);
-            }
-            comments.push(req.body);
-            console.log(comments);
-            fs.writeFileSync(commentPath, JSON.stringify(comments, null, 4));
-        }
-        res.send({ status: 500 });
-    });
+    // app.get('/comments', (req, res) => {
+    //     let { slug } = req.query;
+    //
+    //     if (slug) {
+    //         let commentPath = path.join(distDir, slugToPath(slug));
+    //         if (fs.existsSync(commentPath)) {
+    //             let commentContent = fs.readFileSync(commentPath, 'utf8');
+    //             if (commentContent) {
+    //                 res.send(commentContent);
+    //                 return;
+    //             }
+    //         }
+    //         else {
+    //             fs.writeFileSync(commentPath, '[]');
+    //             res.send([]);
+    //             return;
+    //         }
+    //     }
+    //     res.end('Errors');
+    // });
+    //
+    // app.post('/comments', (req, res) => {
+    //     console.log(req.body);
+    //     let { slug } = req.query;
+    //     let comments = [];
+    //     if (slug) {
+    //         let commentPath = path.join(distDir, slugToPath(slug));
+    //         if (fs.existsSync(commentPath)) {
+    //             let commentContent = fs.readFileSync(commentPath, 'utf8');
+    //             comments = JSON.parse(commentContent);
+    //         }
+    //         comments.push(req.body);
+    //         console.log(comments);
+    //         fs.writeFileSync(commentPath, JSON.stringify(comments, null, 4));
+    //     }
+    //     res.send({ status: 500 });
+    // });
 
 
     app

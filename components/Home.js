@@ -49,7 +49,7 @@ export default function Home({ orgs }) {
                     </div>
                     <div className="home--top-panel--right">
                         <div className="home--top-panel--right--footer">
-                            <h2 className="home--top-panel--right--footer--title">New Posts</h2>
+                            <h2 className="title home--top-panel--right--footer--title">New Posts</h2>
                             <ul className="home--top-panel--right--footer--posts">
                                 {topFour.map(blog => (
                                     <li key={blog.id}>
@@ -81,7 +81,7 @@ export default function Home({ orgs }) {
                 }
                 {randomTile &&
                     <>
-                        <h2 className="accented">Inspiration & Videos</h2>
+                        <h2 className="title" style={{marginTop: "5rem"}}>Inspiration & Videos</h2>
                         <HomeBlock
                             size="large"
                             author={"TechLab"}
@@ -89,14 +89,9 @@ export default function Home({ orgs }) {
                             backgroundSize="contain"
                             text={techlabText}>
                             <div style={{ flex: 1, height: "100%" }}>
-                                <iframe
-                                    height="100%"
-                                    width="100%"
-                                    src="https://www.youtube.com/embed/nakYk1aGaq0"
-                                    title="Hackathon behind the scenes"
-                                    frameBorder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen={true}></iframe>
+                                <a style={{ height: "100%", width: "100%" }} href={"https://www.youtube.com/watch?v=nakYk1aGaq0"} target={"_blank"}>
+                                    <img src={"youtube-cover.png"} />
+                                </a>
                             </div>
                         </HomeBlock>
                     </>
