@@ -81,8 +81,13 @@
                     padding: 4rem;
 
                     h2 {
-                        text-transform: uppercase;
-                        font-weight: 900;
+                        // Is an h2 but should be treated as an h1 from
+                        // a design perspective. Do not change yet,
+                        // we should design for accessibility
+                        color: white!important;
+                        text-align: left!important;
+                        font-size: 39.81px!important;
+                        line-height: 40px!important;
                     }
 
                     &--posts {

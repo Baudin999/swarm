@@ -49,7 +49,7 @@ export default function Home({ orgs }) {
                     </div>
                     <div className="home--top-panel--right">
                         <div className="home--top-panel--right--footer">
-                            <h2 className="title home--top-panel--right--footer--title">New Posts</h2>
+                            <h2 className="title home--top-panel--right--footer--title">New Articles</h2>
                             <ul className="home--top-panel--right--footer--posts">
                                 {topFour.map(blog => (
                                     <li key={blog.id}>
