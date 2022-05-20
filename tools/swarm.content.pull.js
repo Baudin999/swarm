@@ -5,11 +5,19 @@ import { join } from 'path';
 import { configName, contentDir, getSettings } from './swarm.settings.js';
 
 function getUserNameFromGithubUrl(url) {
-    // example: https://github.com/Baudin999/swarm-content.git
-    var parts = url.split('\/');
-    var user = parts[3];
-    var result = user;
-    return result;
+    if (url.startsWith("https")) {
+        // example: https://github.com/Baudin999/swarm-content.git
+        var parts = url.split('\/');
+        var user = parts[3];
+        var result = user;
+        return result;
+    }
+    else if (url.startsWith("git@")) {
+        // example: git@github.com:Baudin999/swarm-techlab-content.git
+        var parts = url.split('/')[0];
+        var user = url.split(':')[1];
+        return user;
+    }
 }
 function fileNameToUrl(fileName) {
     return fileName.replace(/___/g, '/');
