@@ -13,9 +13,11 @@ export default function Header() {
             <div className="header-nav">
                 <ul>
                     <li className="header-nav--logo">
-                        <a href={url("/")}>
-                            <Image src={url("/logo.png")} />
-                        </a>
+                        <div style={{paddingLeft: "3rem"}}>
+                            <a href={url("/")}>
+                                <Image src={url("/logo.png")} />
+                            </a>
+                        </div>
                     </li>
 
                     <li className="header-nav--tags">

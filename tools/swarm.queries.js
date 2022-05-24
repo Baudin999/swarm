@@ -62,6 +62,8 @@ export function queryAuthorData(organisationDir, dirent, orgId, orgName) {
     if (fs.existsSync(markdownPath)) {
         let markdownText = fs.readFileSync(markdownPath, "utf8");
         let config = fm(markdownText);
+        config.attributes.title = config.attributes.title || config.attributes.name || "author@essent.nl";
+        config.attributes.description = config.attributes.description || "author@essent.nl";
         info = { ...info, ...config.attributes };
         html = md.render(config.body);
     }

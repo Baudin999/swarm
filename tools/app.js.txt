@@ -1,150 +1,3 @@
-import React from "react";
-import ReactDOMServer from "react-dom/server";
-import fs from 'fs';
-import { join } from 'path';
-import fsExtra from 'fs-extra';
-import Page from "./../components/Page";
-import Author from "../components/Author";
-import Organisation from "../components/Organisation";
-import Blog from "../components/Blog";
-import Home from "../components/Home";
-import _ from 'lodash';
-
-import prettyHtml from "html";
-import renderLogin from "./swarm.render.login";
-import renderStyleGuide from "./swarm.render.style-guide";
-import renderSearch from "./swarm.render.search";
-import renderAllBlogs from "./swarm.render.all-blogs";
-import saveHtmlTag from "./swarm.saveHtml.tag";
-import state from '../components/globalState';
-import { getAllTags } from "./swarm.render.global-state";
-
-
-function saveHtml(distDir, baseUrl = '/', organisations, contentDirectories) {
-    // SAVE HTML FILES
-    const saveIndexAndCopyDirectory = (html, fromDir, toDir) => {
-        if (!fs.existsSync(toDir)) {
-            fsExtra.mkdirpSync(toDir);
-        }
-        html = '<!DOCTYPE html>' + html;
-        fs.writeFileSync(join(toDir, "index.html"), prettyHtml.prettyPrint(html, { indent_size: 4 }));
-        fsExtra.copySync(fromDir, toDir);
-    };
-
-    const saveBlogHtml = (html, distRootPath, blog, author, org) => {
-        var fromDir = blog.path;
-        var toDir = join(distRootPath, org.id, author.id, blog.id);
-        saveIndexAndCopyDirectory(html, fromDir, toDir);
-    };
-
-    const saveAuthorHtml = (html, distRootPath, author, org) => {
-        var fromDir = author.path;
-        var toDir = join(distRootPath, org.id, author.id);
-        saveIndexAndCopyDirectory(html, fromDir, toDir);
-    };
-
-    const saveOrganisationHtml = (html, distRootPath, org) => {
-        var fromDir = org.path;
-        var toDir = join(distRootPath, org.id);
-        saveIndexAndCopyDirectory(html, fromDir, toDir);
-    };
-
-    const saveHomeHtml = (html, distRootPath) => {
-        html = '<!DOCTYPE html>' + html;
-        var htmlPath = join(distRootPath, "index.html");
-        fs.writeFileSync(htmlPath, prettyHtml.prettyPrint(html, { indent_size: 4 }));
-
-        // write the random images and other files to the root of the dist.
-        contentDirectories.forEach(contentDir => {
-            fs.readdirSync(contentDir, { withFileTypes: true })
-                .filter(dirent => !dirent.isDirectory())
-                .forEach(dirent => {
-                    let from = join(contentDir, dirent.name);
-                    let to = join(distRootPath, dirent.name);
-                    fs.copyFileSync(from, to);
-                });
-
-        });
-    };
-
-    // CREATE ALL OF THE STATIC HTML PAGES
-    organisations.forEach(org => {
-        org.authors.forEach(author => {
-            author
-                .blogs
-                .filter(blog => blog.publish === true)
-                .forEach(blog => {
-                    // RENDER ALL BLOGS
-                    state.setState('currentUrl', blog.url);
-                    var string = ReactDOMServer.renderToString((
-                        <Page SEO={blog.SEO} url={blog.url} baseUrl={baseUrl}>
-                            <Blog organisation={org} author={author} blog={blog} />
-                        </Page>)
-                    );
-                    saveBlogHtml(string, distDir, blog, author, org);
-                });
-
-            // RENDER ALL AUTHORS
-            state.setState('currentUrl', author.url);
-            var authorString = ReactDOMServer.renderToString((
-                <Page SEO={author.SEO} baseUrl={baseUrl}>
-                    <Author organisation={org} author={author} />
-                </Page>)
-            );
-            saveAuthorHtml(authorString, distDir, author, org);
-        });
-
-        // RENDER ALL ORGANISATIONS
-        state.setState('currentUrl', org.url);
-        var orgHtml = ReactDOMServer.renderToString((
-            <Page SEO={org.SEO} baseUrl={baseUrl}>
-                <Organisation organisation={org} />
-            </Page>)
-        );
-        saveOrganisationHtml(orgHtml, distDir, org);
-    });
-
-    // generate the home page, index.html file
-    state.setState('currentUrl', '/');
-    var homeHtml = ReactDOMServer.renderToString((
-        <Page SEO={{}} baseUrl={baseUrl}>
-            <Home orgs={organisations} />
-        </Page>)
-    );
-    saveHomeHtml(homeHtml, distDir);
-
-    // THE APP.CONFIG FILE CONTAINS LOGIN INFORMATION FOR GITHUB
-    state.setState('currentUrl', '/login');
-    renderLogin(distDir, baseUrl);
-
-    // RENDER STYLEGUIDE
-    state.setState('currentUrl', '/styleguide');
-    renderStyleGuide(distDir, baseUrl);
-
-    // RENDER SEARCH
-    state.setState('currentUrl', '/search');
-    renderSearch(distDir, baseUrl);
-
-    // RENDER ALL BLOGS
-    state.setState('currentUrl', '/all-blogs.html');
-    renderAllBlogs(distDir, baseUrl);
-
-    // SAVE THE APP.JS which is the analytics function
-    //let txt = fs.readFileSync(join(__dirname, './app.js.txt'));
-    fs.writeFileSync(join(distDir, "app.js"), txt);
-
-    let tags = getAllTags();
-    tags.forEach(tag => {
-        state.setState('currentUrl', '/');
-        saveHtmlTag(tag);
-    });
-    state.setState('currentUrl', '/');
-}
-
-export default saveHtml;
-
-
-let txt = `
 function _typeof(obj) {
   "@babel/helpers - typeof";
 
@@ -188,7 +41,7 @@ function normalizeName(name) {
     name = String(name);
   }
 
-  if (/[^a-z0-9\\-#$%&'*+.^_\`|~!]/i.test(name) || name === '') {
+  if (/[^a-z0-9\-#$%&'*+.^_`|~!]/i.test(name) || name === '') {
     throw new TypeError('Invalid character in header field name: "' + name + '"');
   }
 
@@ -541,7 +394,7 @@ function Request(input, options) {
         this.url = this.url.replace(reParamSearch, '$1_=' + new Date().getTime());
       } else {
         // Otherwise add a new '_' parameter to the end with the current time
-        var reQueryString = /\\?/;
+        var reQueryString = /\?/;
         this.url += (reQueryString.test(this.url) ? '&' : '?') + '_=' + new Date().getTime();
       }
     }
@@ -559,8 +412,8 @@ function decode(body) {
   body.trim().split('&').forEach(function (bytes) {
     if (bytes) {
       var split = bytes.split('=');
-      var name = split.shift().replace(/\\+/g, ' ');
-      var value = split.join('=').replace(/\\+/g, ' ');
+      var name = split.shift().replace(/\+/g, ' ');
+      var value = split.join('=').replace(/\+/g, ' ');
       form.append(decodeURIComponent(name), decodeURIComponent(value));
     }
   });
@@ -568,15 +421,15 @@ function decode(body) {
 }
 
 function parseHeaders(rawHeaders) {
-  var headers = new Headers(); // Replace instances of \\r\\n and \\n followed by at least one space or horizontal tab with a space
+  var headers = new Headers(); // Replace instances of \r\n and \n followed by at least one space or horizontal tab with a space
   // https://tools.ietf.org/html/rfc7230#section-3.2
 
-  var preProcessedHeaders = rawHeaders.replace(/\\r?\\n[\\t ]+/g, ' '); // Avoiding split via regex to work around a common IE11 bug with the core-js 3.6.0 regex polyfill
+  var preProcessedHeaders = rawHeaders.replace(/\r?\n[\t ]+/g, ' '); // Avoiding split via regex to work around a common IE11 bug with the core-js 3.6.0 regex polyfill
   // https://github.com/github/fetch/issues/748
   // https://github.com/zloirock/core-js/issues/751
 
-  preProcessedHeaders.split('\\r').map(function (header) {
-    return header.indexOf('\\n') === 0 ? header.substr(1, header.length) : header;
+  preProcessedHeaders.split('\r').map(function (header) {
+    return header.indexOf('\n') === 0 ? header.substr(1, header.length) : header;
   }).forEach(function (line) {
     var parts = line.split(':');
     var key = parts.shift().trim();
@@ -881,7 +734,7 @@ _n($n, "form");
 
 function n$1(e) {
   try {
-    return decodeURIComponent(e.replace(/\\+/g, " "));
+    return decodeURIComponent(e.replace(/\+/g, " "));
   } catch (e) {
     return null;
   }
@@ -898,14 +751,14 @@ function s(r) {
     for (var u in t) {
       var c = u.split("[");
       c.length > 1 && (m(t, c.map(function (e) {
-        return e.replace(/[?[\\]\\\\ ]/g, "");
+        return e.replace(/[?[\]\\ ]/g, "");
       }), t[u]), delete t[u]);
     }
 
     return t;
   }(function (r) {
     if (r) {
-      var t = r.match(/\\?(.*)/);
+      var t = r.match(/\?(.*)/);
       return t && t[1] ? t[1].split("#")[0] : "";
     }
 
@@ -1376,7 +1229,7 @@ var X = function X(e) {
 
                 if (n && n.name === t) {
                   var r = re(n.method);
-                  throw new Error([t + " plugin is calling method " + e, "Plugins cant call self", "Use " + n.method + " " + (r ? "or " + r.method : "") + " in " + t + " plugin insteadof " + e].join("\\n"));
+                  throw new Error([t + " plugin is calling method " + e, "Plugins cant call self", "Use " + n.method + " " + (r ? "or " + r.method : "") + " in " + t + " plugin insteadof " + e].join("\n"));
                 }
               }(t.methodName, t.pluginName), Promise.resolve(t.method({
                 payload: e,
@@ -1986,7 +1839,7 @@ function ge(e, t) {
 var he = /#.*$/;
 
 function ve(e) {
-  var t = /(http[s]?:\\/\\/)?([^\\/\\s]+\\/)(.*)/g.exec(e);
+  var t = /(http[s]?:\/\/)?([^\/\s]+\/)(.*)/g.exec(e);
   return "/" + (t && t[3] ? t[3].split("?")[0].replace(he, "") : "");
 }
 
@@ -2010,7 +1863,7 @@ var ye,
       }
     }();
 
-    return t ? t.match(/\\?/) ? t : t + e : window.location.href.replace(he, "");
+    return t ? t.match(/\?/) ? t : t + e : window.location.href.replace(he, "");
   }(s),
       f = {
     title: n,
@@ -2842,5 +2695,3 @@ var analyze = function analyze() {
 
 analyze();
 //# sourceMappingURL=app.js.map
-
-`;

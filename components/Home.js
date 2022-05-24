@@ -15,7 +15,7 @@ export default function Home({ orgs }) {
 
     let highlighted, image;
     if (settings.highlight) {
-        highlighted = authors.find(author => author.name == settings.highlight);
+        highlighted = authors.find(author => author.name === settings.highlight);
         if (highlighted) {
             image = highlighted.image;
         }

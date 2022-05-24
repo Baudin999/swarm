@@ -7,7 +7,8 @@
   },
   "files": [
     "./output/styles/**/*",
-    "./output/components/**/*"
+    "./output/components/**/*",
+    "./tools/app.js.txt"
   ],
   "scripts": {
     "serve": "babel-node tools/server.start.js",

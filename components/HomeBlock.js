@@ -20,24 +20,14 @@ export default function HomeBlock({
         };
     }
 
-    // let sideStyle = "";
-    // if (sideImage) {
-    //     sideStyle = {
-    //         backgroundImage: `url(${sideImage})`,
-    //         backgroundSize: 'contain',
-    //         backgroundPosition: 'center',
-    //         backgroundRepeat: 'no-repeat'
-    //     };
-    // }
-
     return (
         <div className={`home-content-block ${size}`} >
             <div className="home-content-block--left" style={style}>
-
+                {/*This is the image of the author*/}
             </div>
 
             <div className="home-content-block--right">
-                {author && !children && <h2>{author}</h2>}
+                {author && !children && <h2 className="title" style={{color: "white!important"}}>{author}</h2>}
                 {children && children}
                 {text && !children && <p>{text}</p>}
             </div>
